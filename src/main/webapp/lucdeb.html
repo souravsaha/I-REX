@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!--<script type="text/javascript" src='./script.js'></script>-->
+    <title>I-REX | IR EXplainer</title>
+
+<style>
+    .container{
+    height: 100%;
+    }
+
+    .heading{
+    height: 150px;
+    }
+    
+    #heading{
+        text-align: center;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+
+    .mycol1 {
+    border:5px;
+    float:left;
+    align-items: left;
+    }
+    .inp-form{
+      width:200px;
+    }
+    #accordion .remove_field.exit-btn{
+    color:#dd4b39;
+    margin-left:7px;
+    float: left;
+    }
+
+    #errormsg{
+      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+    </style>
+
+
+  </head>
+  <body>
+    <div class="container heading" id="heading">
+      <center><h3>I-REX : A Lucene plugin for EXplainable IR</h3></center>
+      		  <p>Lucene version : 5.3.1</p>
+      		  <h5 id="col_name"> </h5>
+    </div>
+
+    <div class="container">
+
+      <div class="row justify-center">
+        
+        <div class="col-3 col-lg-3 col-xl-3 col-sm-3 col-md-3">
+          <!--INPUT STARTS-->
+            <form action="" class="inp-form" id="inputs">
+              <div class='form-group'>
+
+              <label for="command"> Select Command </label>
+              <select name="command" id="command" class="form-control command" onchange="getOptions()">
+                <option disabled selected value> -- select an option -- </option>
+                <optgroup label="-------------------">
+                <option value="stats">Statistics</option>
+                </optgroup>
+                <optgroup label="-------------------">
+                <option value="cf">Collection Frequency</option>
+                <option value="df">Document Frequency</option>
+                <option value="dl">Document Length</option>
+                <option value="tf">Term Frequency</option>
+                </optgroup>
+                <optgroup label="-------------------">
+                <option value="pl">Posting List</option>
+                <option value="dv">Document Vector</option>
+                </optgroup>
+                <optgroup label="-------------------">                
+                <option value="dump">Dump</option>
+                </optgroup>
+                <optgroup label="-------------------">
+                <option value="explain">Explain</option>
+                <option value="rank">Rank</option>
+                <option value="search">Search</option>
+                </optgroup>
+                <optgroup label="-------------------">
+                <option value="compare">Compare</option>
+                <option value="expansion">Expansion</option>
+                </optgroup>
+                <optgroup label="-------------------">
+                <option value="setRetrieval">Set Retrieval</option>
+                <option value="setSearchField">Set Search Field</option>
+                </optgroup>
+                <!--<option value="diff">Diff</option>-->
+                <!--<option value="sigtest">Sig Test</option>-->
+                
+              </select>
+            </div>
+              
+              <div class="form-group" id="DocId" style="display:none" >
+                  <br/>
+                <label for="docid">Document ID</label>
+                <input type="text" name="docid" placeholder="document ID" class="form-control" id="docid"/>
+              </div>
+              <div class="form-group" id="DocName" style="display:none" >
+                  <label for="docname">Document Name</label>
+                <input type="text" name="docname" placeholder="document name" class="form-control" id="docname"/>
+              </div>
+
+              <div class="form-group" id="DocId2" style="display:none" >
+                  <br/>
+                <label for="docid2">Document 2 ID</label>
+                <input type="text" name="docid2" placeholder="document ID" class="form-control"/>
+              </div>
+              <div class="form-group" id="DocName2" style="display:none" >
+                  <label for="docname2">Document 2 Name</label>
+                <input type="text" name="docname2" placeholder="document name" class="form-control" />
+              </div>
+
+              <div class="form-group" id="Term" style="display:none" >
+                  <label for="term">Term</label>
+                  <input type="text" name="term" placeholder="Term" class="form-control" id="term"/>
+              </div>
+			 
+			  <div class="form-group" id="Rank" style="display:none" >
+                  <!--  <label for="rank">Rank</label> -->
+                  <input type="checkbox" name="rank" class="form-control"/>Rank
+              </div>
+              
+              <div class="form-group" id="Score" style="display:none" >
+                  <!-- <label for="score">Score</label> -->
+                  <input type="checkbox" name="score" class="form-control"/> Score
+              </div>
+              
+              <div class="form-group" id="DocLen" style="display:none" >
+                  <!--  <label for="doclen">DocLen</label> -->
+                  <input type="checkbox" name="doclen" class="form-control"/> DocLen
+              </div>
+              
+			 
+              <div class="form-group" id="Field" style="display:none" >
+                  <label for="field">Field</label>
+                  <input type="text" name="field" placeholder="Field Name" class="form-control" value = "content"/>
+              </div>
+
+
+              <div class="form-group"  id="DiscTerm" style="display:none" >
+                  <label for="discterm">D</label>
+                  <input type="text" name="discterm" placeholder="10" class="form-control"/>
+                  <small class="form-text">Number of Most Discriminative terms to show</small>
+              </div>
+              
+              <div class="form-group"  id="ExpTerm" style="display:none" >
+                  <label for="expterm"># Exapansion Terms</label>
+                  <input type="text" name="expterm" placeholder="10" class="form-control"/>
+              </div>
+              
+
+              <div class="form-group" id="RetModel" style="display:none" >
+                  <label for="retmodel">Retrieval Model</label>
+                  <select name="retmodel" class="form-control"> 
+                        <option value="" selected> -- select an option -- </option>          
+                  		<option value="lmjm"> Language Model Jelinek-Mercer </opion>
+                  		<option value="lmdir"> Language Model Dirichlet </opion>
+                  		<option value="bm25"> BM25 </opion>
+                  		<option value="dfr"> Divergence from Randomness </opion>
+           		  </select>
+                  <small class="form-text">Retrieval Model with PARAMS</small>
+              </div>
+			  
+			  <div class="form-group"  id="RetParam" style="display:none" >
+                  <label for="retparam"> Retrieval Model Parameters</label>
+                  <input type="text" name="retparam" placeholder="space separated params" class="form-control"/>
+              </div>
+			  
+              <br/><br/>  
+              <button class="btn btn-success btn-submit" type="button" id="submit"> Submit</button>
+            </form>
+          <!--INPUT ENDS-->
+        </div>
+
+        <div class="col-3 col-lg-3 col-xl-3 col-sm-3 col-md-3 mycol1">
+          
+          <div class="row">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                  <h5 class="panel-title">Command Explanation</h5>
+                </div>
+                <div class="panel-body" id="helptext" style="display:none">
+                    <p id="helptextpara"></p>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="panel panel-danger" style="display:none" id="errorpanel">
+                <div class="panel-heading">
+                  <h5 class="panel-title">Missing Parameters</h5>
+                </div>
+                <div class="panel-body" >
+                    <p id="errormsg"></p>
+                </div>
+            </div>
+          </div>
+        
+        
+        </div>
+        
+        <div class="col-6 col-lg-6 col-xl-8 col-sm-3 col-md-3 mycol2">
+            <!--OUTPUT TERMIAL STARTS-->
+            
+            <div class="panel-group outputs" id="accordion">
+                <div class="template" style="display:none;">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="True" aria-controls="collapseOne">
+                          Command Header
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel">
+                        <div class="actions_div" style="position: relative; top: -28px; right: 15px;">
+                        <a href="#" accesskey="1" class="remove_ctg_panel exit-btn pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                      <div class="panel-body" style="height: calc(60vh - 150px); overflow-y: auto; width:100%; padding-top:0">
+                          Command Output
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+            </div>
+        
+            <!--OUTPUT TERMINAL ENDS-->
+        </div>
+      
+      </div>
+
+    </div>
+
+  </body>
+
+<script>
+  
+var helpText = {};
+helpText['cf'] = "<b> Collection Frequency </b> <br/>Computes the Collection Frequency of the given term. \
+                <br/> <br/> <font face='courier'>$cf  [OPTION]  TERMS\
+                <br/> OPTION: -f fieldname in which document length will be computed</font>\
+                <br/> <b>Example</b> <br/> cf -f content crime";
+
+helpText['stats'] = "<b> Statistics </b> <br/>Output the overall statistics of the Index File \
+                <br/> <br/> <font face='courier'>$stats </font>";
+
+helpText['dl'] = "<b>Document Length</b> <br/>\
+Returns the document length of a given document (input is either Lucene docid OR document-docid).<br/><br/>\
+<font face='courier'> $dl <-i LUCENE-DOCID | -n DOCNAME> [<-f fieldname>] </font> <br/>\
+<b>Example</b> <br/>\
+dl -i 1";
+
+helpText['df'] = "<b>Document Frequency</b> <br/>\
+Returns the document frequency of a given term in the collection.<br/><br/>\
+<font face='courier'> $df <-t term> [<-f fieldname>]</font>  <br/>\
+<b> Example </b> <br/>\
+df -t term";
+
+
+helpText['explain'] = "<b>Explanation</b> <br/>\
+Explains the selection of sepcified document by the retrieval model using the query<br/><br/>\
+<font face='courier'> $explain [<-f fieldname -r Retrieval Models with Params>]<-q QUERY TERMS> <-i LUCENE-DOCID | -n DOCNAME></font>  <br/>\
+<b> Example </b> <br/>\
+explain -q \"international\" \"FBIS3-24145\" \"lmdir 1000\" ";
+
+helpText['compare'] = "<b>Compare</b> <br/> \
+Compares a pair of documents with respect to per-term weights for a given retrieval model.<br/><br/>\
+<font face='courier'> $compare [OPTION]  <-i1 LUCENE-DOCID | -n1 DOCNAME>\
+<-i2 LUCENE-DOCID | -n2 DOCNAME> <-q QUERY TERMS> <-r retrieval model with parameter> </font> <br/>\
+Explanation of the options <br/>\
+<b>Example</b> <br/>\
+compare -i1 1 -i2 2 -q “appli” -r “lmdir 1000”";
+
+helpText['dump'] = "<b>Dump</b> <br/>\
+Dumps the stored content of the document, optionally highlighting query term. (input is either Lucene docid OR document-docid).<br/><br/>\
+<font face='courier'> $dump <-i LUCENE-DOCID | -n DOCNAME> [<-f fieldname>] [<-q QUERYTerms>] </font>\
+<br/><b>Example</b> <br/>\
+<br/>dump -i 1 -q diplomat";
+
+helpText['dv'] = "<b>Document Vector</b> <br/>\
+Prints the vector of the document. Additionally, -r option with a retrieval model and corresponding parameter(s), returns a set of discriminative terms of the document having largest scores using that retrieval model. (document input is either Lucene-docid OR document-docid).\
+<br/><br/>\
+<font face='courier'> $dv <-i LUCENE-DOCID | -n DOCNAME> [<-f FIELDNAME>] [<-r RETRIEVAL-MODEL with PARAMETER(S)>] [-d NUMBER OF IMP. TERMS TO PRINT] </font>\
+<br/>\
+<br/><b>Example</b> <br/>\
+dv -i 1 -r “lmdir 1000” -d 10";
+
+helpText['expansion'] = "<b>Query Expansion</b> <br/>\
+Prints a set of related expansion terms (using pseudo relevance feedback) for the given initial terms, treated as query.\
+<br/><br/>\
+<font face='courier'> $expansion <-q TERMS> [<-d NUMBER OF EXPANSION TERMS>]</font>\
+<br/><b>Example</b> <br/>\
+<br/>expansion -q “organized crime” -d 10";
+
+helpText['pl'] = "<b>Posting List</b> <br/> Prints the posting list of the given term in the whole collection.\
+<br/><br/><font face='courier'> $pl <-q TERM> </font>\
+<br/><b>Example</b> <br/>\
+<br/>pl -q crime";
+
+helpText['tf'] = "<b>Term Frequency</b> <br/>Returns the term frequency of a given term in a given document.<br/><br/>\
+<font face='courier'> $tf <-t term> <-i LUCENE-DOCID | -n DOCNAME> [<-f fieldname>]</font>  <br/>\
+<br/><b>Example</b> <br/>\
+tf -t term -i 1";
+
+
+helpText['rank'] = "<b>Ranks</b> <br/>Returns the rank of the document for the specified query by given retireval model and parametetrs <br/><br/>\
+<font face='courier'> $rank <-t term> <-i LUCENE-DOCID | -n DOCNAME> [-r <Retrieval Model with PARAMS>] </font>  <br/>\
+<br/><b>Example</b> <br/>\
+rank -t term -i 1";
+
+helpText['search'] = "<b>Search</b>\
+	<br/>Search the collection with the given query using the retrieval model and returns statistical informaiton fo the top retrieved documents.\
+	<br/><br/>\
+	<font face='courier'> $search <-q “QUERY-TERMS”> <-r RET-MODELS with PARAMS> [-dl, -k, -s]\
+	</font>\
+	<br/>\
+	<b>Example </b>\
+	search -q “International Organized Crime” -r “lmdir 1000” -dl -k -s";
+
+
+helpText['setRetrieval'] = "<b>Set Retrieval Model</b> <br/>Set Retrieval Model with Parameters <br/>\
+<font face='courier'> $setRetrieval <-m Model> <-p PARAMS> </font>  <br/>\
+<table class='table'>\
+  <thead class='thead-dark'>\
+    <tr> <th scope='col'>Model Name</th> <th>Model Parameters</th></tr> </thead>\
+  <tbody> <tr> <td>LM-JM</td> <td> &lambda; (default=0.2)</td></tr>\
+    <tr> <td>LM-DIR</td> <td> &mu; </td></tr>\
+    <tr> <td>BM25</td> <td> b k1 </td></tr>\
+    <tr> <td>DFR</td> <td> BasicModel InfoGain Norm Length Norm  </td></tr>\
+  </tbody></table>\
+  BasicModel = {be, g, p, d, in, ine, if}<br/>\
+  InfoGain Norm = {l, b, n}<br/>\
+  Length Norm = {h1, h2, h3, z, n}<br/>\
+  <br/><b>Example</b> <br/>\
+ setRetrieval -m lmdir -p 1000";
+
+helpText['setSearchField'] = "<b>Set Search Field</b> <br/>Sets the Search Field<br/><br/>\
+	<font face='courier'> $setSearchField <-f fieldName> </font>  <br/>\
+	<br/><b>Example</b> <br/>\
+	setSearchField -f content"; 
+	
+function getOptions(){
+    var selection = $('#command').val();
+    //console.log("Selected Option :  " + selection);
+    $('#helptextpara').html(helpText[selection]);
+    $('#helptext').show();
+            
+    $('#errorpanel').hide();
+    switch(selection){
+        case "stats":   // STATS
+            $('#Field').hide();
+            $('#Term').hide();
+            $('#DocId').hide();
+            $('#DocName').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#ExpTerm').hide();
+            $('#RetModel').hide();
+            $('#DiscTerm').hide();
+            $('#RetParam').hide();
+            
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            break;
+
+        case "cf":
+            $('#DocId').hide();
+            $('#DocName').hide();
+            $('#ExpTerm').hide();
+            $('#RetModel').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#RetParam').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            
+            $('#Field').show();
+            $('#Term').show();
+            break;
+
+        case "dl":
+            $('#Term').hide();
+            $('#ExpTerm').hide();
+            $('#RetModel').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#RetParam').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            $('#Field').show();
+            $('#DocId').show();
+            $('#DocName').show();
+            $('#helptextpara').html(helpText['dl']);
+            $('#helptext').show();
+            break;
+
+        case "df":
+            $('#DocId').hide();
+            $('#DocName').hide();
+            $('#ExpTerm').hide();
+            $('#RetModel').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#RetParam').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+        
+            $('#Field').show();
+            $('#Term').show();
+
+            break;
+
+        case "dv":
+            $('#ExpTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#Term').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            $('#DocId').show();
+            $('#DocName').show();
+            $('#Field').show();
+            $('#DiscTerm').show();
+            $('#RetModel').show();
+            $('#RetParam').show();
+            break;
+
+        case "expansion":
+            $('#DocId').hide();
+            $('#DocName').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#Field').hide();
+            $('#RetModel').hide();
+            $('#RetParam').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            $('#Term').show();
+            $('#ExpTerm').show();
+            
+            break;
+
+        case "tf":
+            
+            $('#ExpTerm').hide();
+            $('#RetModel').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#RetParam').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            $('#Term').show();
+            $('#DocId').show();
+            $('#DocName').show();
+            $('#Field').show();
+            break;
+
+        case "compare":
+            $('#ExpTerm').hide();
+            $('#DiscTerm').hide();
+            $('#Field').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            $('#Term').show();
+            $('#RetModel').show();
+            $('#DocId').show();
+            $('#DocName').show();
+            $('#DocId2').show();
+            $('#DocName2').show();
+            $('#RetParam').show();
+            break;
+
+        case "dump":
+            
+            $('#ExpTerm').hide();
+            $('#RetModel').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#RetParam').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            $('#Field').show();
+            $('#DocId').show();
+            $('#DocName').show();
+            $('#Term').show();
+            break;
+        
+        case "explain":
+            $('#ExpTerm').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#Field').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            $('#RetModel').show();
+            $('#DocId').show();
+            $('#DocName').show();
+            $('#Term').show();
+            $('#RetParam').show();
+            break;
+
+        case "pl":
+
+            $('#ExpTerm').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#RetModel').hide();
+            $('#DocId').hide();
+            $('#DocName').hide();
+            $('#RetParam').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            $('#Field').show();
+            $('#Term').show();
+            break;
+
+        case "rank":
+            $('#ExpTerm').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#Field').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            
+            $('#RetModel').show();
+            $('#DocId').show();
+            $('#DocName').show();
+            $('#Term').show();
+            $('#RetParam').show();
+            break;
+        
+        case "search":
+            $('#ExpTerm').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#DocId').hide();
+            $('#DocName').hide();
+            $('#Field').hide();
+            
+            //$('#term').attr('placeholder','query terms space separated');
+            //$('#docid').attr('placeholder','document ids space separated');
+            //$('#docname').attr('placeholder','document names space separated');
+            $('#RetModel').show();
+            $('#Term').show();
+            $('#RetParam').show();
+            $('#Rank').show();
+            $('#Score').show();
+            $('#DocLen').show();
+            
+            
+            break;
+        
+        case "setRetrieval":
+            $('#ExpTerm').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#DocId').hide();
+            $('#DocName').hide();
+            $('#Field').hide();
+            $('#Term').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            $('#RetModel').show();
+            $('#RetParam').show();
+            break;
+        case "setSearchField":
+            $('#ExpTerm').hide();
+            $('#DiscTerm').hide();
+            $('#DocId2').hide();
+            $('#DocName2').hide();
+            $('#DocId').hide();
+            $('#DocName').hide();
+            $('#Term').hide();
+            $('#RetModel').hide();
+            $('#RetParam').hide();
+            $('#Rank').hide();
+            $('#Score').hide();
+            $('#DocLen').hide();
+            
+            $('#Field').show();
+            
+            break;
+        case 'default':
+            break;
+    } 
+};
+
+var $template = $(".template");
+var hash = 1;
+function put_new_output(command, output) {
+    var $newPanel = $template.clone();
+    //console.log($newPanel.html())
+    ++hash;
+    $newPanel.find('.panel-default').attr("id",'panel'+hash);
+    $newPanel.find(".collapse").removeClass("in");
+    var id = "#collapse" + hash;
+    $newPanel.find(".accordion-toggle").attr("href",  "#" + 'collapse' + (hash)).attr("aria-controls", id).attr("aria-expanded","true")
+             .text(command);
+    output.replace("\n","<br/>");
+    $newPanel.find(".panel-body").html(output);
+    $newPanel.find(".panel-collapse").attr("id",'collapse'+hash).addClass("collapse").removeClass("in");
+    $newPanel.find(".remove_ctg_panel").attr("accesskey", hash);
+    //console.log($newPanel.html());
+    $("#accordion").append($newPanel.fadeIn());
+}
+
+function validate(command, data)
+{
+  var ret = true;
+  var msg = "";
+  if(!data.hasOwnProperty('command'))
+  {
+	  ret = false;
+	  msg += "Command must be set!";
+  }	  
+  switch(command){
+    case "cf":
+      // field - optional
+      // term  - must   
+      if(data['term'] === "")
+      {
+        msg = "<b>Term</b> must be specified <br/>";
+        ret = false;
+      }
+      break;
+
+      case "dl":
+        // atleast one of doc id or docname must be there
+        // field optional
+        if(data['docid'] === "" && data['docname'] === "")
+        {
+          msg = "At least one of <b>Document ID</b> or <b>Document Name</b> must be specified <br/>";
+          ret = false;
+        }  
+        break;
+
+      case "df":
+        // field opt
+        // term must
+
+        if(data['term'] === "")
+        {
+          msg = "<b>Term</b> must be specified <br/>";
+          ret = false;
+        }
+        break;
+
+      case "dv":
+        // docid docname - atleast 1
+        // field, ret model, ret param - optional        
+        // discterm - optional
+        if(data['docid'] === "" && data['docname'] === "")
+        {
+          msg = "At least one of <b>Document ID</b> or <b>Document Name</b> must be specified <br/>";
+          ret = false;
+        }
+        break;
+
+      case "expansion":
+          if(data['term'] === "")
+          {
+            msg = "<b>Term</b> must be specified <br/>";
+            ret = false;
+          }
+          break;
+
+      case "tf":
+          
+        if(data['term'] === "")
+        {
+          msg = "<b>Term</b> must be specified <br/>";
+          ret = false;
+        }
+          
+        if(data['docid'] === "" && data['docname'] === "")
+        {
+          msg += "At least one of <b>Document ID</b> or <b>Document Name</b> must be specified <br/>";
+          ret = false;
+        }
+        
+        break;
+
+      case "compare":
+          
+        if(data['term'] === "")
+        {
+          msg = "<b>Term</b> must be specified <br/>";
+          ret = false;
+        }
+          
+        if(data['docid'] === "" && data['docname'] === "")
+        {
+          msg += "At least one of <b>Document 1 ID</b> or <b>Document 1 Name</b> must be specified <br/>";
+          ret = false;
+        }
+
+        if(data['docid2'] === "" && data['docname2'] === "")
+        {
+          msg += "At least one of <b>Document2 ID</b> or <b>Document2 Name</b> must be specified <br/>";
+          ret = false;
+        }
+        
+        break;
+
+      case "dump":
+        
+        if(data['docid'] === "" && data['docname'] === "")
+        {
+          msg = "At least one of <b>Document ID</b> or <b>Document Name</b> must be specified <br/>";
+          ret = false;
+        }
+
+        break;
+      
+      case "explain":
+        
+        if(data['term'] === "")
+        {
+          msg = "<b>Term</b> must be specified <br/>";
+          ret = false;
+        }
+          
+        if(data['docid'] === "" && data['docname'] === "")
+        {
+          msg += "At least one of <b>Document ID</b> or <b>Document Name</b> must be specified <br/>";
+          ret = false;
+        }
+        break;
+
+      case "pl":
+        
+        if(data['term'] === "")
+        {
+          msg = "<b>Term</b> must be specified <br/>";
+          ret = false;
+        }
+        break;
+
+      case "rank":
+        
+        if(data['term'] === "")
+        {
+          msg = "<b>Term</b> must be specified <br/>";
+          ret = false;
+        }
+          
+        if(data['docid'] === "" && data['docname'] === "")
+        {
+          msg += "At least one of <b>Document ID</b> or <b>Document Name</b> must be specified <br/>";
+          ret = false;
+        }
+        
+        break;
+      
+      case "search":
+        
+        if(data['term'] === "")
+        {
+          msg = "<b>Term</b> must be specified <br/>";
+          ret = false;
+        }
+          
+
+        break;
+      
+      case "setRetrieval":
+
+        if(data['retmodel'] == ""){
+           msg = "<b>Retrieval Model</b> must be specified <br/>";
+           ret = false;
+        }
+
+        if(data['retparam'] == ""){
+           msg = "<b>Retrieval Model Parameters</b> must be specified <br/>";
+           ret = false;
+        }
+
+      case "setSearchField":
+        
+        if(data['field'] == ""){
+           msg = "<b>Field</b> must be specified <br/>";
+           ret = false;
+        }
+  
+        break;
+      
+      case 'default':
+          break;
+  }
+  console.log(msg);
+  if(msg != ""){
+    $('#errormsg').html(msg);
+    $('#errorpanel').show();
+  }
+  return ret;
+}
+
+
+
+$(document).ready(function(){
+	$('#col_name').html('Collection Name : ' + localStorage['index']);
+	
+    $('#submit').click(function(){
+        var selection = $('#command').val();
+
+          var data = $("#inputs").serializeArray();
+          var obj = {};
+          for (var a = 0; a < data.length; a++) {
+              obj[data[a].name] = data[a].value;
+          }
+          
+        if(validate(selection, obj) === true)
+        {
+
+          var jsonData = JSON.stringify(obj);
+          console.log("formdata : " + jsonData);
+          console.log("webapi/resource/comm?"+$.param(obj));
+          $.ajax({
+              type: "GET",
+              url : "webapi/resource/comm?"+$.param(obj),
+              //data : jsonData,
+              //dataTye: 'json',
+              success : function(data){
+                  console.log(data);
+                  data = data.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+                  console.log(data);
+                  put_new_output(selection, data);
+              }
+          });
+        }
+        $('#inputs').trigger('reset');
+    });
+
+    $('#accordion').on("click",".remove_ctg_panel", function(e){ 
+      //console.log("here delete!");
+      e.preventDefault(); 
+      var accesskey = $(this).attr('accesskey');
+      $('#panel'+accesskey).remove();
+    });
+
+});
+
+    
+  </script>
+
+  </html>
