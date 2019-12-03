@@ -2,11 +2,10 @@
 I-REX: A Lucene Plugin for EXplainable IR
 
 ## Installation Steps
-### Web Service: 
-Generate war file and deploy to your Tomcat or any other web server engine. Make sure to restart the server to see any necessary changes. 
-Create the war file from Eclipse, command line, maven and then place it(i-rex.war) to $CATALINA_HOME/webapps/ (for Tomcat). 
+### Shell based service: 
 ### Command Line: 
-
+    ant
+    ./i-rex.sh <path-to-lucene-index>
 ## Citing 
 ```
 @inproceedings{Roy:2019:ILP:3357384.3357859,
@@ -27,4 +26,3 @@ Create the war file from Eclipse, command line, maven and then place it(i-rex.wa
  keywords = {debugger, explainable ir},
 }
 ```
-
