@@ -1,3 +1,0 @@
-# LUCIV : LUCene Index Viewer
-========
-
