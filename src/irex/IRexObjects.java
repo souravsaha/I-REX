@@ -95,6 +95,7 @@ import org.xml.sax.SAXException;
  */
 public final class IRexObjects {
 
+    private String      initFilePath;
     private final String      indexPath;
     private final File        indexFile;
     private final IndexReader indexReader;
@@ -146,9 +147,10 @@ public final class IRexObjects {
 
     public void init() {
 
+        this.initFilePath = "/resources/init.properties";
         prop = new Properties();
         try {
-            prop.load(new FileReader("init.properties"));
+            prop.load(getClass().getResourceAsStream(this.initFilePath));
         } catch (IOException ex) {
             System.err.println("Error: init file missing from the root directory");
             System.exit(1);
