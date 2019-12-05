@@ -47,14 +47,14 @@ public class TermFrequencyNameCommand extends Commands {
         if (args.length == 3 )
             fieldName = args[2];
         else 
-            fieldName = lucdebObjects.getSearchField();
+            fieldName = irexObjects.getSearchField();
 
         try {
-            luceneDocid = lucdebObjects.getLuceneDocid(docid);
+            luceneDocid = irexObjects.getLuceneDocid(docid);
             if(luceneDocid < 0)
                 throw (new IllegalArgumentException(""));
 
-            IndexReader indexReader = lucdebObjects.getIndexReader();
+            IndexReader indexReader = irexObjects.getIndexReader();
             // t vector for this document and field, or null if t vectors were not indexed
             Terms terms = indexReader.getTermVector(luceneDocid, fieldName);
             if(null == terms) {

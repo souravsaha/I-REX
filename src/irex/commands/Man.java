@@ -29,7 +29,7 @@ public class Man extends Commands {
 
         String cmdName = args[0];   // consider the first argument as the command to find the manual of.
 
-        Commands cmd = lucdebObjects.getCommand(cmdName);
+        Commands cmd = irexObjects.getCommand(cmdName);
 
         if(null == cmd) {
             out.println(cmdName + ": Command not found");

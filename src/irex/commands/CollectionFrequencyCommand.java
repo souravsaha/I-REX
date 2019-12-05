@@ -64,7 +64,7 @@ public class CollectionFrequencyCommand extends Commands {
         if(null != fieldNameValue)
             fieldName = fieldNameValue;
         else {
-            fieldName = lucdebObjects.getSearchField();
+            fieldName = irexObjects.getSearchField();
         }
 
         /*
@@ -78,10 +78,10 @@ public class CollectionFrequencyCommand extends Commands {
         if (args.length == 2 )
             fieldName = args[1];
         else 
-            fieldName = lucdebObjects.getSearchField();
+            fieldName = irexObjects.getSearchField();
         */
 
-        IndexReader indexReader = lucdebObjects.getIndexReader();
+        IndexReader indexReader = irexObjects.getIndexReader();
         Term termInstance = new Term(fieldName, term);
         long termFreq = indexReader.totalTermFreq(termInstance); // CF: Returns the total number of occurrences of term across all documents (the sum of the freq() for each doc that has this term).
 

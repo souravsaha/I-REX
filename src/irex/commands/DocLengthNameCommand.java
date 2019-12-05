@@ -45,10 +45,10 @@ public class DocLengthNameCommand extends Commands {
         if (args.length == 2 )
             fieldName = args[1];
         else 
-            fieldName = lucdebObjects.getSearchField();
+            fieldName = irexObjects.getSearchField();
 
         try {
-            luceneDocid = lucdebObjects.getLuceneDocid(docid);
+            luceneDocid = irexObjects.getLuceneDocid(docid);
         } catch (Exception ex) {
             out.println("Error while getting luceneDocid");
         }
@@ -56,7 +56,7 @@ public class DocLengthNameCommand extends Commands {
             return;
         }
 
-        IndexReader indexReader = lucdebObjects.getIndexReader();
+        IndexReader indexReader = irexObjects.getIndexReader();
         // Term vector for this document and field, or null if term vectors were not indexed
         Terms terms = indexReader.getTermVector(luceneDocid, fieldName);
         if(null == terms) {

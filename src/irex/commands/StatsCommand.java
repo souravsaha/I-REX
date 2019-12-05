@@ -40,11 +40,11 @@ public class StatsCommand extends Commands {
     @Override
     public void execute(String[] args, PrintStream out) throws IOException{
 
-        out.println("Number of docs: " + lucdebObjects.numDocs);
-        out.println("Number of fields: " + lucdebObjects.numFields);
+        out.println("Number of docs: " + irexObjects.numDocs);
+        out.println("Number of fields: " + irexObjects.numFields);
 
         int fcount = 0;
-        for (Object[] finfo : lucdebObjects.fields.values()) {
+        for (Object[] finfo : irexObjects.fields.values()) {
             FieldInfo fieldInfo = (FieldInfo) finfo[0];
             String fieldName = fieldInfo.name;
             out.println("=== Field "+ ++fcount + ": "+fieldInfo.name+" ===");
@@ -56,7 +56,7 @@ public class StatsCommand extends Commands {
             //else
             //    System.out.println("already computed");
 
-            List<Long> counts = lucdebObjects.getTermCounts(fieldName);
+            List<Long> counts = irexObjects.getTermCounts(fieldName);
             out.println("Unique term count:\t" + counts.get(0));
             out.println("Total term count:\t" + counts.get(1) + "\n");
         }
@@ -98,7 +98,7 @@ public class StatsCommand extends Commands {
                 sumTotalTermFreq = -1;
 
             // (fieldName, uniqTermCount, totalTermCount)
-            lucdebObjects.setTermCounts(fieldName, numTerms, sumTotalTermFreq);
+            irexObjects.setTermCounts(fieldName, numTerms, sumTotalTermFreq);
         }
         isSetStats.put(fieldName, true);
     }

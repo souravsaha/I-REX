@@ -48,7 +48,7 @@ public class ExplainDefaultCommand extends Commands {
         out.println(query + " : " + docid);
 
         try {
-            luceneDocid = lucdebObjects.getLuceneDocid(docid);
+            luceneDocid = irexObjects.getLuceneDocid(docid);
             if(luceneDocid == -1) {
                 return;
             }
@@ -60,8 +60,8 @@ public class ExplainDefaultCommand extends Commands {
         Query luceneQuery;
 
         try {
-            luceneQuery = lucdebObjects.getAnalyzedQuery(query, "content");
-            IndexSearcher indexSearcher = lucdebObjects.getIndexSearcher();
+            luceneQuery = irexObjects.getAnalyzedQuery(query, "content");
+            IndexSearcher indexSearcher = irexObjects.getIndexSearcher();
             System.out.println(luceneQuery.toString());
             Explanation expln = indexSearcher.explain(luceneQuery, luceneDocid);
             out.println(expln.toString());

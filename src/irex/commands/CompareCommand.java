@@ -67,13 +67,13 @@ public class CompareCommand extends Commands{
         TopDocs topDocs = null;
         String query;
         
-		IndexSearcher indexSearcher = lucdebObjects.getIndexSearcher();
+		IndexSearcher indexSearcher = irexObjects.getIndexSearcher();
 		
-		//System.out.println(lucdebObjects.retModelName+" " +lucdebObjects.retModelParam1+" " +lucdebObjects.retModelParam2+" " +lucdebObjects.retModelParam3);
+		//System.out.println(irexObjects.retModelName+" " +irexObjects.retModelParam1+" " +irexObjects.retModelParam2+" " +irexObjects.retModelParam3);
 		
 		
-		String searchField = lucdebObjects.getSearchField();
-        SimilarityFunctions simFunc = new SimilarityFunctions(lucdebObjects.retModelName, lucdebObjects.retModelParam1,lucdebObjects.retModelParam2, lucdebObjects.retModelParam3);
+		String searchField = irexObjects.getSearchField();
+        SimilarityFunctions simFunc = new SimilarityFunctions(irexObjects.retModelName, irexObjects.retModelParam1,irexObjects.retModelParam2, irexObjects.retModelParam3);
         indexSearcher.setSimilarity(simFunc);
 
         StringBuilder buf = new StringBuilder();
@@ -84,7 +84,7 @@ public class CompareCommand extends Commands{
 
         Query luceneQuery;
         try {
-            luceneQuery = lucdebObjects.getAnalyzedQuery(query, searchField);
+            luceneQuery = irexObjects.getAnalyzedQuery(query, searchField);
             collector = TopScoreDocCollector.create(1000);
             //System.out.println(luceneQuery.toString(searchField));
             indexSearcher.search(luceneQuery, collector);
@@ -102,7 +102,7 @@ public class CompareCommand extends Commands{
             }
 
             //for(String docName : docNames) {
-            return rankedList.get(lucdebObjects.getIndexSearcher().doc(luceneDocid).get(lucdebObjects.idField));
+            return rankedList.get(irexObjects.getIndexSearcher().doc(luceneDocid).get(irexObjects.idField));
             //}
         } catch (QueryNodeException ex) {
             Logger.getLogger(RankCommand.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,8 +112,8 @@ public class CompareCommand extends Commands{
 	
 	public int getDocLength(int luceneDocid) throws IOException
 	{
-        IndexReader indexReader = lucdebObjects.getIndexReader();
-        String fieldName = lucdebObjects.getSearchField();
+        IndexReader indexReader = irexObjects.getIndexReader();
+        String fieldName = irexObjects.getSearchField();
         
         // Term vector for this document and field, or null if term vectors were not indexed
         Terms terms = indexReader.getTermVector(luceneDocid, fieldName);
@@ -138,11 +138,11 @@ public class CompareCommand extends Commands{
 	
 	public long getTermFrequency(int luceneDocid, String term) throws IOException
 	{
-        String fieldName = lucdebObjects.getSearchField();
-        IndexReader indexReader = lucdebObjects.getIndexReader();
+        String fieldName = irexObjects.getSearchField();
+        IndexReader indexReader = irexObjects.getIndexReader();
         Query luceneQuery = null;
 		try {
-			luceneQuery = lucdebObjects.getAnalyzedQuery(term, fieldName);
+			luceneQuery = irexObjects.getAnalyzedQuery(term, fieldName);
 		} catch (QueryNodeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -172,11 +172,11 @@ public class CompareCommand extends Commands{
 		String queryTerms[];
 	    float totalScore=0.0f;
 		queryTerms = queryTermsValue.split(" ");
-		String searchField = lucdebObjects.getSearchField();
-        IndexSearcher indexSearcher = lucdebObjects.getIndexSearcher();
-        //System.out.println("Retrieval model set to " + lucdebObjects.retModelName);
+		String searchField = irexObjects.getSearchField();
+        IndexSearcher indexSearcher = irexObjects.getIndexSearcher();
+        //System.out.println("Retrieval model set to " + irexObjects.retModelName);
 
-        SimilarityFunctions simFunc = new SimilarityFunctions(lucdebObjects.retModelName, lucdebObjects.retModelParam1,lucdebObjects.retModelParam2, lucdebObjects.retModelParam3);
+        SimilarityFunctions simFunc = new SimilarityFunctions(irexObjects.retModelName, irexObjects.retModelParam1,irexObjects.retModelParam2, irexObjects.retModelParam3);
         indexSearcher.setSimilarity(simFunc);
 
         StringBuilder buf = new StringBuilder();
@@ -187,16 +187,16 @@ public class CompareCommand extends Commands{
 
         Query luceneQuery;
         try {
-            IndexReader indexReader = lucdebObjects.getIndexReader();
+            IndexReader indexReader = irexObjects.getIndexReader();
 
             
                 DocumentVector dv = new DocumentVector();
 
-                //luceneDocid = lucdebObjects.getLuceneDocid(docid);
+                //luceneDocid = irexObjects.getLuceneDocid(docid);
                 //System.out.println(/*luceneDocid + " " + */luceneDocid);
                 dv = dv.getDocumentVector(luceneDocid, indexReader);
                 simFunc.setDocVector(dv);
-                DocTermStat dts = new DocTermStat(lucdebObjects.getIndexSearcher().doc(luceneDocid).get(lucdebObjects.idField), luceneDocid);
+                DocTermStat dts = new DocTermStat(irexObjects.getIndexSearcher().doc(luceneDocid).get(irexObjects.idField), luceneDocid);
                 simFunc.setDocTermStat(dts);
 
                 // reset totalScore variable to Zero
@@ -204,7 +204,7 @@ public class CompareCommand extends Commands{
                 for(String queryTerm : queryTerms) {
                     TermStats ts = new TermStats();
                     simFunc.setTermStats(ts);
-                    luceneQuery = lucdebObjects.getAnalyzedQuery(queryTerm, searchField);
+                    luceneQuery = irexObjects.getAnalyzedQuery(queryTerm, searchField);
                     ts.term = luceneQuery.toString(searchField);
                     //System.out.printPagination(queryTerm + "\t");
 
@@ -292,7 +292,7 @@ public class CompareCommand extends Commands{
         {
         	try {
         		//out.println(docNameValue1);
-                luceneDocid1 = lucdebObjects.getLuceneDocid(docNameValue1);
+                luceneDocid1 = irexObjects.getLuceneDocid(docNameValue1);
             } catch (Exception ex) {
                 out.println("Error while getting luceneDocid");
             }
@@ -317,7 +317,7 @@ public class CompareCommand extends Commands{
         {
         	try {
         		//out.println(docNameValue2);
-                luceneDocid2 = lucdebObjects.getLuceneDocid(docNameValue2);
+                luceneDocid2 = irexObjects.getLuceneDocid(docNameValue2);
             } catch (Exception ex) {
                 out.println("Error while getting luceneDocid2");
             }
@@ -328,13 +328,13 @@ public class CompareCommand extends Commands{
         else 
         	return;
         
-        if(luceneDocid1 < 0 || luceneDocid1 > lucdebObjects.getNumDocs()) {
-            out.println(luceneDocid1 + ": not in the docid range (0 - " + lucdebObjects.getNumDocs() + ")");
+        if(luceneDocid1 < 0 || luceneDocid1 > irexObjects.getNumDocs()) {
+            out.println(luceneDocid1 + ": not in the docid range (0 - " + irexObjects.getNumDocs() + ")");
             return;
         }
         
-        if(luceneDocid2 < 0 || luceneDocid2 > lucdebObjects.getNumDocs()) {
-            out.println(luceneDocid2 + ": not in the docid range (0 - " + lucdebObjects.getNumDocs() + ")");
+        if(luceneDocid2 < 0 || luceneDocid2 > irexObjects.getNumDocs()) {
+            out.println(luceneDocid2 + ": not in the docid range (0 - " + irexObjects.getNumDocs() + ")");
             return;
         }
     	
@@ -363,15 +363,15 @@ public class CompareCommand extends Commands{
     	            break;
             }
             //System.out.println(params[0]+" "+param1+ " "+ param2+ " " +param3);
-            lucdebObjects.setRetreivalParameter(params[0],param1, param2, param3);
+            irexObjects.setRetreivalParameter(params[0],param1, param2, param3);
         }
         else
-        	lucdebObjects.getRetreivalParameter();
+        	irexObjects.getRetreivalParameter();
     	
         String queryTerms[];
         queryTerms = queryTermsValue.split(" ");
         
-        System.out.println("\t\t"+lucdebObjects.getIndexSearcher().doc(luceneDocid1).get(lucdebObjects.idField)+"\t"+lucdebObjects.getIndexSearcher().doc(luceneDocid2).get(lucdebObjects.idField));
+        System.out.println("\t\t"+irexObjects.getIndexSearcher().doc(luceneDocid1).get(irexObjects.idField)+"\t"+irexObjects.getIndexSearcher().doc(luceneDocid2).get(irexObjects.idField));
         int rank1 = findRank(luceneDocid1, queryTerms);
         int rank2 = findRank(luceneDocid2, queryTerms);
         

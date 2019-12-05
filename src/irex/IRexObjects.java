@@ -322,7 +322,7 @@ public final class IRexObjects {
         docidSearcher.setSimilarity(new DefaultSimilarity());
 
         // Registering commands
-        // To add new commands in LucDeb, add the constractor here; 
+        // To add new commands in I-Rex, add the constractor here; 
         // Please keep the lexicographical order for better understatnding.
 
         new CollectionFrequencyCommand(this);
@@ -519,7 +519,7 @@ public final class IRexObjects {
     }
 
     /**
-     * Register the command in LucDeb.
+     * Register the command in I-Rex.
      * @param cmd 
      */
     public void registerCommand(Commands cmd) {

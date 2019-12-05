@@ -32,17 +32,17 @@ public class SetSearchFieldCommand extends Commands {
 
         if(args.length != 1) {
             out.println(usage());
-            out.println("Search field set to: " + lucdebObjects.getSearchField());
+            out.println("Search field set to: " + irexObjects.getSearchField());
             return;
         }
 
         String field = args[0];
 
-        if(lucdebObjects.fields.get(field)==null)
+        if(irexObjects.fields.get(field)==null)
             out.println(field + " not present.");
 
         else {
-            lucdebObjects.setSearchField(field);
+            irexObjects.setSearchField(field);
             out.println("defaultField for searching set to " + field);
         }
     }

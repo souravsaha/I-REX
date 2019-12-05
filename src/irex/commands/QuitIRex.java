@@ -33,7 +33,7 @@ public class QuitIRex extends Commands {
     public void execute(String[] args, PrintStream out) throws IOException {
 
         out.flush();
-        lucdebObjects.closeAll();
+        irexObjects.closeAll();
         System.exit(0);
     }
     

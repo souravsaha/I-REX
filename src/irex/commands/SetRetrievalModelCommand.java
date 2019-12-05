@@ -15,8 +15,8 @@ import org.apache.commons.cli.*;
  */
 public class SetRetrievalModelCommand extends Commands{
 
-	public SetRetrievalModelCommand(IRexObjects lucDebObject) {
-		super(lucDebObject, "setRetModel");
+	public SetRetrievalModelCommand(IRexObjects irexObject) {
+		super(irexObject, "setRetModel");
 	}
     @Override
     public String help() {
@@ -80,6 +80,6 @@ public class SetRetrievalModelCommand extends Commands{
 	            // TODO
 	            break;
         }
-        lucdebObjects.setRetreivalParameter(modelName,param1, param2, param3);
+        irexObjects.setRetreivalParameter(modelName,param1, param2, param3);
     }
 }
