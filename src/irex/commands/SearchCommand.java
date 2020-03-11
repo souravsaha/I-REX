@@ -99,16 +99,16 @@ public class SearchCommand extends Commands {
         int numDocs = 10;
 
         String param1="", param2= "", param3 = "";
-        searchField = lucdebObjects.getSearchField();
-        IndexSearcher indexSearcher = lucdebObjects.getIndexSearcher();
+        searchField = irexObjects.getSearchField();
+        IndexSearcher indexSearcher = irexObjects.getIndexSearcher();
         if(null != retrievalParams) {
             String retModel = cmd.getOptionValue("retrievalParams");
 
             System.out.println(retModel);
             String[] params = retModel.split("\\s+");
-            if(!lucdebObjects.isKnownRetFunc(params[0])) {
+            if(!irexObjects.isKnownRetFunc(params[0])) {
                 out.println("Unknown retrieval model: " + retModel +"\n"
-                        + "Available retrieval models: " + lucdebObjects.retFuncMap.keySet());
+                        + "Available retrieval models: " + irexObjects.retFuncMap.keySet());
                 return;
             }
             switch(params[0]) {
@@ -139,7 +139,7 @@ public class SearchCommand extends Commands {
         Query luceneQuery;
 
         try {
-            luceneQuery = lucdebObjects.getAnalyzedQuery(queryTerms, searchField);
+            luceneQuery = irexObjects.getAnalyzedQuery(queryTerms, searchField);
         } catch (QueryNodeException ex) {
             out.println("Error analysing the query. Returning...");
             return;
@@ -180,8 +180,8 @@ public class SearchCommand extends Commands {
     // REPEATED function: already implemented elsewhere
     public int getDocLength(int luceneDocid) throws IOException
     {
-        IndexReader indexReader = lucdebObjects.getIndexReader();
-        String fieldName = lucdebObjects.getSearchField();
+        IndexReader indexReader = irexObjects.getIndexReader();
+        String fieldName = irexObjects.getSearchField();
         
         // Term vector for this document and field, or null if term vectors were not indexed
         Terms terms = indexReader.getTermVector(luceneDocid, fieldName);

@@ -68,10 +68,10 @@ public class DocumentFrequencyCommand extends Commands {
         if(null != fieldNameValue)
             fieldName = fieldNameValue;
         else {
-            fieldName = lucdebObjects.getSearchField();
+            fieldName = irexObjects.getSearchField();
         }
 
-        IndexReader indexReader = lucdebObjects.getIndexReader();
+        IndexReader indexReader = irexObjects.getIndexReader();
         Term termInstance = new Term(fieldName, term);
         long docCount = indexReader.docFreq(termInstance);       // DF: Returns the number of documents containing the term
 
@@ -91,9 +91,9 @@ public class DocumentFrequencyCommand extends Commands {
         if (args.length == 2 )
             fieldName = args[1];
         else 
-            fieldName = lucdebObjects.getSearchField();
+            fieldName = irexObjects.getSearchField();
 
-        IndexReader indexReader = lucdebObjects.getIndexReader();
+        IndexReader indexReader = irexObjects.getIndexReader();
         List<LeafReaderContext> leaves = indexReader.leaves();
         TreeMap<BytesRef,TermsEnum> termMap = null;
         HashMap<BytesRef,AtomicInteger> termCountMap = new HashMap<>();
@@ -171,9 +171,9 @@ public class DocumentFrequencyCommand extends Commands {
 
     public void allDF() throws IOException {
 
-        IndexReader indexReader = lucdebObjects.getIndexReader();
-        fieldName = lucdebObjects.getSearchField();
-        Fields fields = MultiFields.getFields(lucdebObjects.getIndexReader());
+        IndexReader indexReader = irexObjects.getIndexReader();
+        fieldName = irexObjects.getSearchField();
+        Fields fields = MultiFields.getFields(irexObjects.getIndexReader());
 
         Terms terms = fields.terms(fieldName);
 

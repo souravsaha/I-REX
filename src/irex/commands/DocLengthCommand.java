@@ -75,10 +75,10 @@ public class DocLengthCommand extends Commands {
         if(null != fieldNameValue)
             fieldName = fieldNameValue;
         else {
-            fieldName = lucdebObjects.getSearchField();
+            fieldName = irexObjects.getSearchField();
         }
 
-        IndexReader indexReader = lucdebObjects.getIndexReader();
+        IndexReader indexReader = irexObjects.getIndexReader();
 
         // Term vector for this document and field, or null if term vectors were not indexed
         Terms terms = indexReader.getTermVector(luceneDocid, fieldName);

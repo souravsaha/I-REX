@@ -57,12 +57,12 @@ public class Postings extends Commands{
         if (args.length == 2 )
             fieldName = args[1];
         else 
-            fieldName = lucdebObjects.getSearchField();
+            fieldName = irexObjects.getSearchField();
 
         // +
         List<PostingValues> postingsLists = new ArrayList<>();
 
-        IndexReader indexReader = lucdebObjects.getIndexReader();
+        IndexReader indexReader = irexObjects.getIndexReader();
         List<LeafReaderContext> leaves = indexReader.leaves();
         int docBase = 0;
         PostingsEnum postings = null;
@@ -107,7 +107,7 @@ public class Postings extends Commands{
                 list.add("\033[0;0;1m"+s);
         }
 
-        lucdebObjects.printPagination(list);
+        irexObjects.printPagination(list);
         // -
     }
 

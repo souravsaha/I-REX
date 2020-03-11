@@ -44,13 +44,13 @@ public class VocabCommand extends Commands {
     @Override
     public void execute(String[] args, PrintStream out) throws IOException {
 
-        IndexReader indexReader = lucdebObjects.getIndexReader();
-        fieldName = lucdebObjects.getSearchField();
-        Fields fields = MultiFields.getFields(lucdebObjects.getIndexReader());
+        IndexReader indexReader = irexObjects.getIndexReader();
+        fieldName = irexObjects.getSearchField();
+        Fields fields = MultiFields.getFields(irexObjects.getIndexReader());
 
         Terms terms = fields.terms(fieldName);
 
-        out.println("Number of tokens: " + lucdebObjects.getTermCounts(fieldName).get(0));
+        out.println("Number of tokens: " + irexObjects.getTermCounts(fieldName).get(0));
 
 //        out.println("Press anykey to start printing the tokens. (press n to stop)");
 //        char ch = (char) System.in.read();

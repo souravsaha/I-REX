@@ -38,10 +38,8 @@ import irex.commands.Commands;
 import irex.commands.CompareCommand;
 import irex.commands.CustomLMJMSim;
 import irex.commands.DocLengthCommand;
-import irex.commands.DocLengthNameCommand;
 import irex.commands.DocTermsCommand;
 import irex.commands.DocVectorCommand;
-import irex.commands.DocVectorNameCommand;
 import irex.commands.DocumentFrequencyCommand;
 import irex.commands.DumpCommand;
 import irex.commands.ExpansionCommand;
@@ -55,8 +53,6 @@ import irex.commands.SetRetrievalModelCommand;
 import irex.commands.SetSearchFieldCommand;
 import irex.commands.StatsCommand;
 import irex.commands.TermFrequencyCommand;
-import irex.commands.TermFrequencyNameCommand;
-import irex.commands.VocabCommand;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
@@ -95,6 +91,7 @@ import org.xml.sax.SAXException;
  */
 public final class IRexObjects {
 
+    private String      initFilePath;
     private final String      indexPath;
     private final File        indexFile;
     private final IndexReader indexReader;
@@ -146,9 +143,10 @@ public final class IRexObjects {
 
     public void init() {
 
+        this.initFilePath = "/resources/init.properties";
         prop = new Properties();
         try {
-            prop.load(new FileReader("init.properties"));
+            prop.load(getClass().getResourceAsStream(this.initFilePath));
         } catch (IOException ex) {
             System.err.println("Error: init file missing from the root directory");
             System.exit(1);
@@ -320,7 +318,7 @@ public final class IRexObjects {
         docidSearcher.setSimilarity(new DefaultSimilarity());
 
         // Registering commands
-        // To add new commands in LucDeb, add the constractor here; 
+        // To add new commands in I-Rex, add the constractor here; 
         // Please keep the lexicographical order for better understatnding.
 
         new CollectionFrequencyCommand(this);
@@ -329,7 +327,6 @@ public final class IRexObjects {
 //        new DocLengthNameCommand(this);
         new DocTermsCommand(this);
         new DocVectorCommand(this);
-        new DocVectorNameCommand(this);
         new DumpCommand(this);
 //        new DocidFieldCommand(this);
         new ExpansionCommand(this);
@@ -344,7 +341,6 @@ public final class IRexObjects {
         new SetSearchFieldCommand(this);
         new StatsCommand(this);
         new TermFrequencyCommand(this);
-        new TermFrequencyNameCommand(this);
 //        new VocabCommand(this);
         new SetRetrievalModelCommand(this);
         new CompareCommand(this);
@@ -517,7 +513,7 @@ public final class IRexObjects {
     }
 
     /**
-     * Register the command in LucDeb.
+     * Register the command in I-Rex.
      * @param cmd 
      */
     public void registerCommand(Commands cmd) {

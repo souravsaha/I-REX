@@ -39,11 +39,11 @@ public class DocidFieldCommand extends Commands {
 
         String field = args[0];
 
-        if(lucdebObjects.fields.get(field)==null)
+        if(irexObjects.fields.get(field)==null)
             out.println("Error setting docid field." + field + " not present.");
 
         else {
-            lucdebObjects.setDocidField(field);
+            irexObjects.setDocidField(field);
             out.println("unique docid field set to " + field);
         }
     }

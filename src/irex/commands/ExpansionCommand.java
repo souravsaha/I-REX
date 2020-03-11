@@ -63,14 +63,14 @@ public class ExpansionCommand extends Commands {
         else
             numExpTerms = 10;
 
-        searchField = lucdebObjects.getSearchField();
-        IndexSearcher indexSearcher = lucdebObjects.getIndexSearcher();
+        searchField = irexObjects.getSearchField();
+        IndexSearcher indexSearcher = irexObjects.getIndexSearcher();
         indexSearcher.setSimilarity(new BM25Similarity());
         TopScoreDocCollector collector = TopScoreDocCollector.create(M);
         Query luceneQuery;
 
         try {
-            luceneQuery = lucdebObjects.getAnalyzedQuery(queryStr, searchField);
+            luceneQuery = irexObjects.getAnalyzedQuery(queryStr, searchField);
         } catch (QueryNodeException ex) {
             out.println("Error analysing the query. Returning...");
             return;
@@ -86,7 +86,7 @@ public class ExpansionCommand extends Commands {
 
         {
             try {
-                rblm = new RelevanceBasedLanguageModel(lucdebObjects, queryStr, numExpTerms, out);
+                rblm = new RelevanceBasedLanguageModel(irexObjects, queryStr, numExpTerms, out);
                 rblm.retrieveAll();
             } catch (QueryNodeException ex) {
                 Logger.getLogger(ExpansionCommand.class.getName()).log(Level.SEVERE, null, ex);

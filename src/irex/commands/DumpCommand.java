@@ -17,6 +17,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.lucene.search.IndexSearcher;
@@ -46,20 +47,15 @@ public class DumpCommand extends Commands {
         LinkedList<String> fieldNames = new LinkedList<>();
         List queryList = null;
 
-        // +
-    	/* TODO remove optional flag */
     	Options options = new Options();
-    	Option modelOption = new Option("i", "luceneDocId", true, "Lucene Doc Id");
-//        modelOption = Option.builder("i").longOpt("luceneDocId").desc("Lucene Doc Id").hasArg(true).build();
-    	modelOption.setRequired(true);
-    	options.addOption(modelOption);
-    	
-    	Option paramOption = new Option("n", "docName", true, "Document Name");
-    	paramOption.setRequired(false);
-    	options.addOption(paramOption);
+        OptionGroup input = new OptionGroup();
+        input.addOption(new Option("i", "luceneDocId", true, "Lucene Doc Id"));
+        input.addOption(new Option("n", "docName", true, "Document Name"));
+        input.setRequired(true);
+        options.addOptionGroup(input);
+
     	options.addOption("f","fieldName", true, "Field name which will be dumped" );
-    	options.addOption("q","query", true, "Query terms to highlight in the dump" );
-    	
+    	options.addOption("q","query", true, "Query terms to highlight in the dump" );    	
     	
     	CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
@@ -75,60 +71,58 @@ public class DumpCommand extends Commands {
         String luceneDocIdNum = cmd.getOptionValue("luceneDocId");
         if(null != luceneDocIdNum)
             luceneDocid = Integer.parseInt(luceneDocIdNum.trim());
-        if(cmd.hasOption("luceneDocId"))
-            System.out.println(cmd.getOptionValue("luceneDocId"));
-        // TODO: to include this option
+
         String docNameValue = cmd.getOptionValue("docName");
+
+        if(cmd.hasOption("i")) {
+            // Parsing the arguments
+            try {
+                luceneDocid = Integer.parseInt(luceneDocIdNum.trim());
+
+            } catch(NumberFormatException ex) {
+                out.println("error reading docid; expected integers.");
+            }
+        }
+        else if(cmd.hasOption("n")) {
+        	try {
+        		//out.println(docNameValue);
+                luceneDocid = irexObjects.getLuceneDocid(docNameValue.trim());
+            } catch (Exception ex) {
+                out.println("Error while getting luceneDocid");
+            }
+            if(luceneDocid < 0) {
+                return;
+            }
+        }
+        else {
+            // execution should not reach here
+            return;
+        }
+
+        if(luceneDocid < 0 || luceneDocid > irexObjects.getNumDocs()) {
+            out.println(luceneDocid + ": not in the docid range (0 - " + irexObjects.getNumDocs() + ")");
+            return;
+        }
+        
         String fieldNameValue = cmd.getOptionValue("fieldName");
         if(null != fieldNameValue)
             fieldNames.add(fieldNameValue);        
-        else {
-            fieldNames = (LinkedList<String>) lucdebObjects.getFieldNames();
-//            fieldName = lucdebObjects.getSearchField();
-        }
+        else
+        // add and search in all fields of the index
+            fieldNames = (LinkedList<String>) irexObjects.getFieldNames();
+
         String query = cmd.getOptionValue("query");
         if(null != query) {
             queryTerms = query.split(" ");
             queryList = Arrays.asList(queryTerms);
         }
-        System.out.println(luceneDocid);
-        // -
 
-        /*
-        if (args.length != 1 && args.length != 2) {
-            out.println(usage());
-            return;
-        }
+        IndexSearcher indexSearcher = irexObjects.getIndexSearcher();
 
-        // Parsing the arguments
-        try {
-            luceneDocid = Integer.parseInt(args[0]);
-            if(!lucdebObjects.isValidLucenDocid(luceneDocid)) {
-                return;
-            }
-        }
-        catch(NumberFormatException ex) {
-            out.println("Error: parsing lucene-docid (integer input expected)");
-            return;
-        }
-
-        if (args.length == 2 ) {
-            fieldName = args[1];
-            fieldNames.add(fieldName);
-        }
-        else {
-            fieldNames = (LinkedList<String>) lucdebObjects.getFieldNames();
-//            fieldName = lucdebObjects.getSearchField();
-        }
-        //*/
-
-        IndexSearcher indexSearcher = lucdebObjects.getIndexSearcher();
-        // Term vector for this document and field, or null if term vectors were not indexed
         ArrayList<String> list;
         list = new ArrayList<>();
         int terminalWidth = (int)jline.TerminalFactory.get().getWidth();
 
-        // TODO: To rewrite here
         for (String field : fieldNames) {
             String content = indexSearcher.doc(luceneDocid).get(field);
             String tokens[] = content.split("\\W+");
@@ -141,16 +135,12 @@ public class DumpCommand extends Commands {
                     content = content + " " + token;
             }
             String temp = field+"="+content;
-//            temp = temp.replaceAll("(.{80})", "$1\n");
             temp = temp.replaceAll("(.{"+(terminalWidth-5)+"})", "$1\n");
             tokens = temp.split("\n");
             for(String token:tokens)
                 list.add(token);
-            // -
-//
-//            out.println();
         }
-        lucdebObjects.printPagination(list);
+        irexObjects.printPagination(list);
     }
 
     @Override

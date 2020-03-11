@@ -28,7 +28,7 @@ public class HelpCommand extends Commands{
     @Override
     public void execute(String[] args, PrintStream out) throws IOException {
 
-        Map<String, Commands> cmdMap = lucdebObjects.getCommandMap();
+        Map<String, Commands> cmdMap = irexObjects.getCommandMap();
         Collection<Commands> allCommands = cmdMap.values();
 
         for (Commands cmd : allCommands) {

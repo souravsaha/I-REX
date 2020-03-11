@@ -49,7 +49,7 @@ public class ExplainCommand extends Commands {
         return CMD_NAME + " \n" +
               "1- <\"query-terms\" (in quotes)> \n"
             + "2- <\"list of docid\" (in quotes)> \n"
-            + "3- <retrieval-functions with parameters "+lucdebObjects.retFuncMap.toString()+"> \n";
+            + "3- <retrieval-functions with parameters "+irexObjects.retFuncMap.toString()+"> \n";
     }
 
     public void resetTotalScore() {totalScore = 0;}
@@ -104,7 +104,7 @@ public class ExplainCommand extends Commands {
         {
         	try {
         		out.println(docNameValue);
-                luceneDocid = lucdebObjects.getLuceneDocid(docNameValue);
+                luceneDocid = irexObjects.getLuceneDocid(docNameValue);
             } catch (Exception ex) {
                 out.println("Error while getting luceneDocid");
             }
@@ -115,8 +115,8 @@ public class ExplainCommand extends Commands {
         else 
         	return;
 
-        if(luceneDocid < 0 || luceneDocid > lucdebObjects.getNumDocs()) {
-            out.println(luceneDocid + ": not in the docid range (0 - " + lucdebObjects.getNumDocs() + ")");
+        if(luceneDocid < 0 || luceneDocid > irexObjects.getNumDocs()) {
+            out.println(luceneDocid + ": not in the docid range (0 - " + irexObjects.getNumDocs() + ")");
             return;
         }
         
@@ -144,17 +144,17 @@ public class ExplainCommand extends Commands {
     	            // TODO
     	            break;
             }
-            lucdebObjects.setRetreivalParameter(params[0],param1, param2, param3);
+            irexObjects.setRetreivalParameter(params[0],param1, param2, param3);
         }
         else
-        	lucdebObjects.getRetreivalParameter();
+        	irexObjects.getRetreivalParameter();
     	
         String param1="", param2 ="", param3 ="";
         String queryTerms[];
         String docNames[];
         String[] retrievalModelsWithParam;
         TopScoreDocCollector collector = TopScoreDocCollector.create(10);
-        String searchField = lucdebObjects.getSearchField();
+        String searchField = irexObjects.getSearchField();
 
         // usage: >4 arguments:
         //  1. set of query terms (in quotes)
@@ -171,10 +171,10 @@ public class ExplainCommand extends Commands {
         
         
             
-        IndexSearcher indexSearcher = lucdebObjects.getIndexSearcher();
-        System.out.println("Retrieval model set to " + lucdebObjects.retModelName);
+        IndexSearcher indexSearcher = irexObjects.getIndexSearcher();
+        System.out.println("Retrieval model set to " + irexObjects.retModelName);
 
-        SimilarityFunctions simFunc = new SimilarityFunctions(lucdebObjects.retModelName, lucdebObjects.retModelParam1,lucdebObjects.retModelParam2, lucdebObjects.retModelParam3);
+        SimilarityFunctions simFunc = new SimilarityFunctions(irexObjects.retModelName, irexObjects.retModelParam1,irexObjects.retModelParam2, irexObjects.retModelParam3);
         indexSearcher.setSimilarity(simFunc);
 
         StringBuilder buf = new StringBuilder();
@@ -185,20 +185,20 @@ public class ExplainCommand extends Commands {
 
         Query luceneQuery;
         try {
-            IndexReader indexReader = lucdebObjects.getIndexReader();
+            IndexReader indexReader = irexObjects.getIndexReader();
 
             // for each of the documents
             //for(String docid: docNames) {
                 DocumentVector dv = new DocumentVector();
 
-                //luceneDocid = lucdebObjects.getLuceneDocid(docid);
+                //luceneDocid = irexObjects.getLuceneDocid(docid);
                 System.out.println(/*luceneDocid + " " + */luceneDocid);
                 if(luceneDocid == -1) {
                     return;
                 }
                 dv = dv.getDocumentVector(luceneDocid, indexReader);
                 simFunc.setDocVector(dv);
-                DocTermStat dts = new DocTermStat(lucdebObjects.getIndexSearcher().doc(luceneDocid).get(lucdebObjects.idField), luceneDocid);
+                DocTermStat dts = new DocTermStat(irexObjects.getIndexSearcher().doc(luceneDocid).get(irexObjects.idField), luceneDocid);
                 simFunc.setDocTermStat(dts);
 
                 // reset totalScore variable to Zero
@@ -213,7 +213,7 @@ public class ExplainCommand extends Commands {
                 for(String queryTerm : queryTerms) {
                     TermStats ts = new TermStats();
                     simFunc.setTermStats(ts);
-                    luceneQuery = lucdebObjects.getAnalyzedQuery(queryTerm, searchField);
+                    luceneQuery = irexObjects.getAnalyzedQuery(queryTerm, searchField);
                     ts.term = luceneQuery.toString(searchField);
                     //System.out.printPagination(queryTerm + "\t");
 
@@ -234,7 +234,7 @@ public class ExplainCommand extends Commands {
                 }
 
                     /*
-                    luceneQuery = lucdebObjects.getAnalyzedQuery(query, searchField);
+                    luceneQuery = irexObjects.getAnalyzedQuery(query, searchField);
                     System.out.println("Query: " + luceneQuery.toString());
                     Explanation expln = indexSearcher.explain(luceneQuery, luceneDocid);
                     out.println(expln.toString());

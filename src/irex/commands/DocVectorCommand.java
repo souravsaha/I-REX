@@ -104,7 +104,7 @@ public class DocVectorCommand extends Commands {
         {
         	try {
         		out.println(docNameValue);
-                luceneDocid = lucdebObjects.getLuceneDocid(docNameValue);
+                luceneDocid = irexObjects.getLuceneDocid(docNameValue);
             } catch (Exception ex) {
                 out.println("Error while getting luceneDocid");
             }
@@ -118,10 +118,10 @@ public class DocVectorCommand extends Commands {
         if (cmd.hasOption("f"))
             fieldName = fieldNameValue;
         else 
-            fieldName = lucdebObjects.getSearchField();
+            fieldName = irexObjects.getSearchField();
 
-        if(luceneDocid < 0 || luceneDocid > lucdebObjects.getNumDocs()) {
-            out.println(luceneDocid + ": not in the docid range (0 - " + lucdebObjects.getNumDocs() + ")");
+        if(luceneDocid < 0 || luceneDocid > irexObjects.getNumDocs()) {
+            out.println(luceneDocid + ": not in the docid range (0 - " + irexObjects.getNumDocs() + ")");
             return;
         }
         
@@ -149,12 +149,12 @@ public class DocVectorCommand extends Commands {
     	            // TODO
     	            break;
             }
-            lucdebObjects.setRetreivalParameter(params[0],param1, param2, param3);
+            irexObjects.setRetreivalParameter(params[0],param1, param2, param3);
         }
         else
-        	lucdebObjects.getRetreivalParameter();
+        	irexObjects.getRetreivalParameter();
         
-        IndexReader indexReader = lucdebObjects.getIndexReader();
+        IndexReader indexReader = irexObjects.getIndexReader();
         // Term vector for this document and field, or null if term vectors were not indexed
         Terms terms = indexReader.getTermVector(luceneDocid, fieldName);
         if(null == terms) {
@@ -186,22 +186,22 @@ public class DocVectorCommand extends Commands {
         	if(discTerms!= null)
         		discValue = Integer.parseInt(discTerms);
         	//System.out.println(discValue);
-        	//System.out.println(lucdebObjects.retModelName);
-        	//System.out.println(lucdebObjects.retModelParam1);
-        	//System.out.println(lucdebObjects.retModelParam2);
-        	//System.out.println(lucdebObjects.retModelParam3);
+        	//System.out.println(irexObjects.retModelName);
+        	//System.out.println(irexObjects.retModelParam1);
+        	//System.out.println(irexObjects.retModelParam2);
+        	//System.out.println(irexObjects.retModelParam3);
         	
-        	IndexSearcher indexSearcher = lucdebObjects.getIndexSearcher();
-            SimilarityFunctions simFunc = new SimilarityFunctions(lucdebObjects.retModelName, lucdebObjects.retModelParam1,lucdebObjects.retModelParam2, lucdebObjects.retModelParam3);
+        	IndexSearcher indexSearcher = irexObjects.getIndexSearcher();
+            SimilarityFunctions simFunc = new SimilarityFunctions(irexObjects.retModelName, irexObjects.retModelParam1,irexObjects.retModelParam2, irexObjects.retModelParam3);
             indexSearcher.setSimilarity(simFunc);
             Query luceneQuery;
             try {
-                //IndexReader indexReader = lucdebObjects.getIndexReader();
+                //IndexReader indexReader = irexObjects.getIndexReader();
 
                 // for each of the documents
                     DocumentVector dv = new DocumentVector();
 
-                    //luceneDocid = lucdebObjects.getLuceneDocid(docName);
+                    //luceneDocid = irexObjects.getLuceneDocid(docName);
                     //out.println(/*luceneDocid + " " + */docName);
 
                     if(luceneDocid == -1) {
@@ -210,7 +210,7 @@ public class DocVectorCommand extends Commands {
                     }
                     dv = dv.getDocumentVector(luceneDocid, indexReader);
                     simFunc.setDocVector(dv);
-                    DocTermStat dts = new DocTermStat(lucdebObjects.getIndexSearcher().doc(luceneDocid).get(lucdebObjects.idField), luceneDocid);
+                    DocTermStat dts = new DocTermStat(irexObjects.getIndexSearcher().doc(luceneDocid).get(irexObjects.idField), luceneDocid);
                     simFunc.setDocTermStat(dts);
 
                     // for each of the query terms q:
@@ -218,7 +218,7 @@ public class DocVectorCommand extends Commands {
                     //  2. ntf(q,d),
                     //  3. df(q), idf(q),
                     //  4. retrieval-score(q, d)
-                    String searchField = lucdebObjects.getSearchField();
+                    String searchField = irexObjects.getSearchField();
                     
                     for (Map.Entry<String, PerTermStat> entrySet : dv.docPerTermStat.entrySet()) {
                         String key = entrySet.getKey();

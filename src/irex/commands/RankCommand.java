@@ -56,7 +56,7 @@ public class RankCommand extends Commands {
     @Override
     public String usage() {
         return cmdName + " <query> <set-of-docNames (in quotes)> <set-of-retrieval-models-with-parameters>\n"
-                + "retrieval models: " + lucdebObjects.retFuncMap.toString() + "\n" 
+                + "retrieval models: " + irexObjects.retFuncMap.toString() + "\n" 
                 + "the parameters of each retrieval models in quote separately";
         // rank "What is a Bengals cat" "WTX095-B05-124 WTX095-B05-119" "lmjm 0.2" "bm25 0.2 0.75"
     }
@@ -84,7 +84,7 @@ public class RankCommand extends Commands {
         CommandLine cmd = null;
 
         TopScoreDocCollector collector;
-        String searchField = lucdebObjects.getSearchField();
+        String searchField = irexObjects.getSearchField();
 
         ScoreDoc[] hits = null;
         TopDocs topDocs = null;
@@ -105,7 +105,7 @@ public class RankCommand extends Commands {
         String docNameValue = cmd.getOptionValue("docName");
         if(null != docNameValue)
         try {
-            luceneDocid = lucdebObjects.getLuceneDocid(docNameValue);
+            luceneDocid = irexObjects.getLuceneDocid(docNameValue);
         } catch (Exception ex) {
             Logger.getLogger(RankCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -113,7 +113,7 @@ public class RankCommand extends Commands {
         if(null != fieldNameValue)
             fieldName = fieldNameValue;
         else {
-            fieldName = lucdebObjects.getSearchField();
+            fieldName = irexObjects.getSearchField();
         }
         String query;
         String param1="", param2= "", param3 = "";
@@ -123,9 +123,9 @@ public class RankCommand extends Commands {
 
         System.out.println(retModel);
         String[] params = retModel.split("\\s+");
-        if(!lucdebObjects.isKnownRetFunc(params[0])) {
+        if(!irexObjects.isKnownRetFunc(params[0])) {
             out.println("Unknown retrieval model: " + retModel +"\n"
-                    + "Available retrieval models: " + lucdebObjects.retFuncMap.keySet());
+                    + "Available retrieval models: " + irexObjects.retFuncMap.keySet());
             return;
         }
         switch(params[0]) {
@@ -149,7 +149,7 @@ public class RankCommand extends Commands {
                 break;
         }
 
-        IndexSearcher indexSearcher = lucdebObjects.getIndexSearcher();
+        IndexSearcher indexSearcher = irexObjects.getIndexSearcher();
         System.out.println("Retrieval model set to " + retModel);
 
         SimilarityFunctions simFunc = new SimilarityFunctions(params[0], param1, param2, param3);
@@ -163,7 +163,7 @@ public class RankCommand extends Commands {
 
         Query luceneQuery;
         try {
-            luceneQuery = lucdebObjects.getAnalyzedQuery(query, searchField);
+            luceneQuery = irexObjects.getAnalyzedQuery(query, searchField);
             collector = TopScoreDocCollector.create(1000);
             System.out.println(luceneQuery.toString(searchField));
             indexSearcher.search(luceneQuery, collector);
@@ -199,7 +199,7 @@ public class RankCommand extends Commands {
         String param1="", param2= "", param3 = "";
 //        float param1 = 0.0f, param2 = 0.0f;
         TopScoreDocCollector collector;
-        String searchField = lucdebObjects.getSearchField();
+        String searchField = irexObjects.getSearchField();
 
         
         ScoreDoc[] hits = null;
@@ -218,9 +218,9 @@ public class RankCommand extends Commands {
         /*
         for(String retrievalModelWithParam : retrievalModelsWithParam) {
             String[] params = retrievalModelWithParam.split(" ");
-            if(!lucdebObjects.isKnownRetFunc(params[0])) {
+            if(!irexObjects.isKnownRetFunc(params[0])) {
                 out.println("Unknown retrieval model: " + retrievalModelWithParam +"\n"
-                        + "Available retrieval models: " + lucdebObjects.retFuncMap.keySet());
+                        + "Available retrieval models: " + irexObjects.retFuncMap.keySet());
                 continue;
             }
             switch(params[0]) {
@@ -243,7 +243,7 @@ public class RankCommand extends Commands {
                     // TODO
                     break;
             }
-            IndexSearcher indexSearcher = lucdebObjects.getIndexSearcher();
+            IndexSearcher indexSearcher = irexObjects.getIndexSearcher();
             System.out.println("Retrieval model set to " + retrievalModelWithParam);
 
             SimilarityFunctions simFunc = new SimilarityFunctions(params[0], param1, param2, param3);
@@ -257,7 +257,7 @@ public class RankCommand extends Commands {
 
             Query luceneQuery;
             try {
-                luceneQuery = lucdebObjects.getAnalyzedQuery(query, searchField);
+                luceneQuery = irexObjects.getAnalyzedQuery(query, searchField);
                 collector = TopScoreDocCollector.create(1000);
                 System.out.println(luceneQuery.toString(searchField));
                 indexSearcher.search(luceneQuery, collector);

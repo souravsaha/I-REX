@@ -16,12 +16,12 @@ import irex.IRexObjects;
 public abstract class Commands {
 
     String CMD_NAME;
-    protected IRexObjects lucdebObjects;
+    protected IRexObjects irexObjects;
 
     public Commands (IRexObjects lucivObjects, String cmdName) {
         CMD_NAME = cmdName;
-        this.lucdebObjects = lucivObjects;
-        this.lucdebObjects.registerCommand(this);
+        this.irexObjects = lucivObjects;
+        this.irexObjects.registerCommand(this);
     }
 
     /**
