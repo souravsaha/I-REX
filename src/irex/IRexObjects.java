@@ -38,10 +38,8 @@ import irex.commands.Commands;
 import irex.commands.CompareCommand;
 import irex.commands.CustomLMJMSim;
 import irex.commands.DocLengthCommand;
-import irex.commands.DocLengthNameCommand;
 import irex.commands.DocTermsCommand;
 import irex.commands.DocVectorCommand;
-import irex.commands.DocVectorNameCommand;
 import irex.commands.DocumentFrequencyCommand;
 import irex.commands.DumpCommand;
 import irex.commands.ExpansionCommand;
@@ -332,7 +330,6 @@ public final class IRexObjects {
 //        new DocLengthNameCommand(this);
         new DocTermsCommand(this);
         new DocVectorCommand(this);
-        new DocVectorNameCommand(this);
         new DumpCommand(this);
 //        new DocidFieldCommand(this);
         new ExpansionCommand(this);
@@ -347,7 +344,6 @@ public final class IRexObjects {
         new SetSearchFieldCommand(this);
         new StatsCommand(this);
         new TermFrequencyCommand(this);
-        new TermFrequencyNameCommand(this);
 //        new VocabCommand(this);
         new SetRetrievalModelCommand(this);
         new CompareCommand(this);
