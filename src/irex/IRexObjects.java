@@ -57,6 +57,7 @@ import irex.commands.StatsCommand;
 import irex.commands.TermFrequencyCommand;
 import irex.commands.TermFrequencyNameCommand;
 import irex.commands.VocabCommand;
+import irex.commands.DocSimilarCommand;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
@@ -350,6 +351,7 @@ public final class IRexObjects {
 //        new VocabCommand(this);
         new SetRetrievalModelCommand(this);
         new CompareCommand(this);
+        new DocSimilarCommand(this);
 
         this.consoleReader = new ConsoleReader();
 //        String[] list = {"211077","39", "307362", "21"};
