@@ -8,7 +8,6 @@ package irex.commands;
 import common.DocumentVector;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Arrays;
 import irex.IRexObjects;
 
 import org.apache.commons.cli.CommandLine;
@@ -16,6 +15,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.lucene.index.IndexReader;
@@ -63,13 +63,11 @@ public class ExplainCommand extends Commands {
     	queryOption.setRequired(false);
     	options.addOption(queryOption);
     	
-    	Option luceneDocIDOption = new Option("i", "luceneDocId", true, "Lucene Doc Id");
-    	luceneDocIDOption.setRequired(false);
-    	options.addOption(luceneDocIDOption);
-    	
-    	Option luceneDocNameOption = new Option("n", "docName", true, "Document Name");
-    	luceneDocNameOption.setRequired(false);
-    	options.addOption(luceneDocNameOption);
+        OptionGroup input = new OptionGroup();
+        input.addOption(new Option("i", "luceneDocId", true, "Lucene Doc Id"));
+        input.addOption(new Option("n", "docName", true, "Document Name"));
+        input.setRequired(true);
+        options.addOptionGroup(input);
     		
     	Option retModelOption = new Option("r", "retrievalParams", true, "Retrieval Models with params");
     	retModelOption.setRequired(false);

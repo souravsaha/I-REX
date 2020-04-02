@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import irex.IRexObjects;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
 import org.apache.lucene.index.LeafReaderContext;
@@ -47,17 +54,32 @@ public class Postings extends Commands{
 
     @Override
     public void execute(String[] args, PrintStream out) throws IOException {
-        if (args.length != 1 && args.length != 2) {
-            out.println(help());
+
+    	Options options = new Options();
+    	Option modelOption = new Option("t", "term", true, "Term to get the posting list");
+    	modelOption.setRequired(true);
+    	options.addOption(modelOption);
+
+    	options.addOption("f","fieldName", true, "Field name for which posting list will be retrieved" );
+
+    	CommandLineParser parser = new DefaultParser();
+        HelpFormatter formatter = new HelpFormatter();
+        CommandLine cmd = null;
+
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+            formatter.printHelp("utility-name", options);
             return;
         }
-
-        // Parsing the arguments
-        term = args[0];
-        if (args.length == 2 )
-            fieldName = args[1];
-        else 
+        term = cmd.getOptionValue("term");
+        String fieldNameValue = cmd.getOptionValue("fieldName");
+        if(null != fieldNameValue)
+            fieldName = fieldNameValue;
+        else {
             fieldName = irexObjects.getSearchField();
+        }
 
         // +
         List<PostingValues> postingsLists = new ArrayList<>();

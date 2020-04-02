@@ -31,6 +31,7 @@ import org.apache.lucene.util.BytesRef;
 
 import common.DocumentVector;
 import common.PerTermStat;
+import org.apache.commons.cli.OptionGroup;
 
 /**
  *
@@ -54,14 +55,13 @@ public class DocVectorCommand extends Commands {
     public void execute(String[] args, PrintStream out) throws IOException {
 
     	Options options = new Options();
-    	Option modelOption = new Option("i", "luceneDocId", true, "Lucene Doc Id");
-    	modelOption.setRequired(false);
-    	options.addOption(modelOption);
-    	
-    	Option paramOption = new Option("n", "docName", true, "Document Name");
-    	paramOption.setRequired(false);
-    	options.addOption(paramOption);
-    	options.addOption("d","discTerms", true, "Discriminative Terms" );
+        OptionGroup input = new OptionGroup();
+        input.addOption(new Option("i", "luceneDocId", true, "Lucene Doc Id"));
+        input.addOption(new Option("n", "docName", true, "Document Name"));
+        input.setRequired(true);
+        options.addOptionGroup(input);
+
+        options.addOption("d","discTerms", true, "Discriminative Terms" );
     	options.addOption("f","fieldName", true, "Field Length in which Document length will be computed" );
     	options.addOption("r","retrievalParams", true, "Retrieval Models with params" );
     	    	

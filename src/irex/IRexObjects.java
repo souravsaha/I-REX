@@ -53,8 +53,6 @@ import irex.commands.SetRetrievalModelCommand;
 import irex.commands.SetSearchFieldCommand;
 import irex.commands.StatsCommand;
 import irex.commands.TermFrequencyCommand;
-import irex.commands.TermFrequencyNameCommand;
-import irex.commands.VocabCommand;
 import irex.commands.DocSimilarCommand;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -237,6 +235,8 @@ public final class IRexObjects {
         indexSearcher = new IndexSearcher(indexReader);
 
         indexSearcher.setSimilarity(new CustomLMJMSim(0.4f));
+
+        System.out.println("Index opened successfully.");
         // --- index opened
 
 

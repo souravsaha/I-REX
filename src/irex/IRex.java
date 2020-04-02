@@ -29,26 +29,6 @@ public class IRex {
         irexObjects = new IRexObjects(indexPath);
     }
 
-    public void openIndex(String indexPath) throws IOException {
-
-        // +++ index path setting 
-        this.indexPath = indexPath;
-        indexFile = new File(indexPath);
-        Directory indexDir = FSDirectory.open(indexFile.toPath());
-
-        if (!DirectoryReader.indexExists(indexDir)) {
-            System.err.println("Index doesn't exists in "+indexPath);
-            boolIndexExists = false;
-            System.exit(1);
-        }
-        // --- index path set
-
-        /* setting IndexReader */
-        indexReader = DirectoryReader.open(FSDirectory.open(indexFile.toPath()));
-
-        System.out.println("Index opened successfully.");
-    }
-
     public static void usage() {
         String usage = "java LucIV <index-path>";
         System.out.println(usage);
