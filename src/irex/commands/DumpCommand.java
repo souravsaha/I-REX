@@ -125,6 +125,10 @@ public class DumpCommand extends Commands {
 
         for (String field : fieldNames) {
             String content = indexSearcher.doc(luceneDocid).get(field);
+            if(content == null) {
+                System.out.println(field + ": not stored.");
+                continue;
+            }
             String tokens[] = content.split("\\W+");
 
             content = "";
