@@ -13,7 +13,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import irex.IRexObjects;
-import treceval.Qrel;
+import common.treceval.Qrel;
 
 /**
  * @author souravsaha

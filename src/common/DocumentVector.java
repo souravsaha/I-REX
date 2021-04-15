@@ -1,7 +1,7 @@
 
 package common;
 
-import static common.CommonVariables.FIELD_BOW;
+import static common.DocField.FIELD_BOW;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

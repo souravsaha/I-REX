@@ -1,9 +1,9 @@
 
 package common;
 
-import static common.CommonVariables.FIELD_BOW;
-import static common.CommonVariables.FIELD_FULL_BOW;
-import static common.CommonVariables.FIELD_ID;
+import static common.DocField.FIELD_BOW;
+import static common.DocField.FIELD_FULL_BOW;
+import static common.DocField.FIELD_ID;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -112,7 +112,7 @@ public class CollectionStatistics {
     /**
      * Initialize collectionStat:<p>
      * docCount      - total-number-of-docs-in-index<p>
- vocSize       - collection-size<p>
+     * vocSize       - collection-size<p>
      * uniqTermCount - unique terms in collection<p>
      * perTermStat   - cf, df of each terms in the collection <p>
      * @throws IOException 
@@ -127,6 +127,7 @@ public class CollectionStatistics {
         if(null == terms) {
             System.err.println("Field: "+field);
             System.err.println("Error buildCollectionStat(): terms Null found");
+            return;
         }
         vocSize = terms.getSumTotalTermFreq();  // total number of terms in the index in that field
         vocSize = getVocabularySize(indexReader, field);
@@ -225,7 +226,7 @@ public class CollectionStatistics {
             //System.out.println(qTerm);
             if(null != perQueryStat) {
                 long tf = perQueryStat.getCF();
-                long docSize = dv.getDocSize();
+                double docSize = dv.getDocSize();
                 long cf = perTermStat.get(qTerm).getCF();
                 long collSize = getVocSize();
                 double singleTermScore = Math.log(1+((1-lambda)*tf/docSize)/(lambda * cf/collSize));

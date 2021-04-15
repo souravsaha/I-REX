@@ -108,7 +108,7 @@ public class CommonMethods {
     }
 
     /**
-     * Analyzes 'text', using 'analyzer', to be stored in a  dummy field.
+     * Analyzes 'text', using 'analyzer', to be stored in a dummy field.
      * @param analyzer
      * @param text
      * @return
@@ -150,7 +150,7 @@ public class CommonMethods {
     }
 
     /**
-     * Analyzes 'text', using 'analyzer', to be stored in a  dummy field.
+     * Analyzes 'text', using 'analyzer', to be stored in a dummy null field.
      * @param analyzer
      * @param text
      * @return
@@ -180,7 +180,7 @@ public class CommonMethods {
         stream.close();
 
         return tokenizedContentBuff;
-    }
+    } // ends analyzeTextRemoveNum()
 
     public static long getDocLength(IndexReader indexReader, String fieldName, int luceneDocid) throws IOException {
 

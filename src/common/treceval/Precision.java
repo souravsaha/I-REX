@@ -1,4 +1,4 @@
-package treceval;
+package common.treceval;
 
 public class Precision {
 	

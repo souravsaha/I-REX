@@ -5,7 +5,7 @@
  */
 package irex.commands;
 
-import static common.CommonVariables.FIELD_ID;
+import static common.DocField.FIELD_ID;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
