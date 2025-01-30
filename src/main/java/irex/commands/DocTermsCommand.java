@@ -107,7 +107,7 @@ public class DocTermsCommand extends Commands {
 
                 // for each of the documents
                 for(String docName: docNames) {
-                    DocumentVector dv = new DocumentVector();
+                    DocumentVector dv = new DocumentVector(searchField);
 
                     luceneDocid = irexObjects.getLuceneDocid(docName);
                     out.println(/*luceneDocid + " " + */docName);
@@ -141,7 +141,14 @@ public class DocTermsCommand extends Commands {
                         //out.println(expln.toString());
                         if(!expln.isMatch())
                             System.out.println("(0\t0\t0\t0)");
-                        //System.out.println(expln.getValue());
+                        else {
+                            ts.setScore(expln.getValue().doubleValue());
+                            ts.setTF(entrySet.getValue().getCF());
+                            ts.setDF(entrySet.getValue().getDF());
+//                            System.out.println(expln.toString());
+                        }
+                        dts.terms.add(ts);
+                        dts.doclen += entrySet.getValue().getCF();
                     }
                     System.out.println(dts.doclen + "\t" + dts.avgdl);
                     /*
@@ -169,7 +176,7 @@ public class DocTermsCommand extends Commands {
                 }
             } 
             catch (Exception ex) {
-
+                System.out.println("Exception in DocTermsCommand\n" + ex);
             }
         }
     }

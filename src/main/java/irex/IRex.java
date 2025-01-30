@@ -34,7 +34,7 @@ public class IRex {
         System.out.println(usage);
     }
 
-    public void runLucIV() throws IOException {
+    public void runIRex() throws IOException {
 
         while(true) {
             String command = irexObjects.readCommand();
@@ -98,9 +98,12 @@ public class IRex {
 
             // for test running
             args = new String[1];
-            args[0] = "/home/dwaipayan/trec678rb.index";
+            args[0] = "/home/dwaipayan/movie_summaries_index_8.8/";
+            args[0] = "/home/dwaipayan/Downloads/TRECRb_Lucene8.11/trec_robust_lucene8/";
 //            args[0] = "/store/collections/indexed/trec678";
-            irex = new IRex(args[0]);
+//            irex = new IRex(args[0]);
+            
+//            irex.executeCommand("docterm", "\"FBIS3-10082 FBIS3-10243\" \"lmjm 0.2\"".split(" "), System.out);
 //            irex.executeCommand("tf", "--luceneDocId 1 -q europ".split(" "), System.out);
 //            irex.executeCommand("dump", "--luceneDocId 1".split(" "), System.out);
 //            irex.executeCommand("dump", "--docName WSJ880829-0084".split(" "), System.out);
@@ -117,7 +120,7 @@ public class IRex {
 
         irex = new IRex(args[0]);
 
-        irex.runLucIV();
+        irex.runIRex();
 
 //        irex.executeCommand("stats", "".split(" "), System.out);
 

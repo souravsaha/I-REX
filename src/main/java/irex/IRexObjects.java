@@ -54,6 +54,8 @@ import irex.commands.SetSearchFieldCommand;
 import irex.commands.StatsCommand;
 import irex.commands.TermFrequencyCommand;
 import irex.commands.DocSimilarCommand;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
@@ -126,9 +128,9 @@ public final class IRexObjects {
     boolean                     isQuerySet;
     boolean                     isQrelSet;
 
-    public SortedMap<String, Object[]> fields;  // to contain all name of the fields
+    public SortedMap<String, Object[]> fields;  // to contain name of the fields that have term vectors stored
     public long                 numDocs;        // number of documents in the index
-    public int                  numFields;      // number of fields in the index
+    public int                  numFields;      // number of fields in the index having term vectors stored
     public String 				retModelName;   // name of the retrieval model
     public String 				retModelParam1;   // name of the retrieval model parameter 1
     public String 				retModelParam2;   // name of the retrieval model parameter 2
@@ -263,23 +265,25 @@ public final class IRexObjects {
                 Iterator<FieldInfo> fieldInfoIter = fieldInfos.iterator();
                 Fields flds = leafReader.getTermVectors(0);//fields();
 
-                while (fieldInfoIter.hasNext()) {
-                    FieldInfo finfo = fieldInfoIter.next();
-                    Terms t;
-                    t = flds.terms(finfo.name);
+                if (flds != null) {
+                    while (fieldInfoIter.hasNext()) {
+                        FieldInfo finfo = fieldInfoIter.next();
+                        Terms t;
+                        t = flds.terms(finfo.name);
 
-                    Object[] data = fields.get(finfo.name);
-                    if (data == null) {
-                        data = new Object[2];
-                        LinkedList<Terms> termsList = new LinkedList<>();
-                        termsList.add(t);
-                        data[0] = finfo;
-                        data[1] = termsList;
-                        fields.put(finfo.name, data);
-                    } 
-                    else {
-                        List<Terms> termsList = (List<Terms>) data[1];
-                        termsList.add(t);
+                        Object[] data = fields.get(finfo.name);
+                        if (data == null) {
+                            data = new Object[2];
+                            LinkedList<Terms> termsList = new LinkedList<>();
+                            termsList.add(t);
+                            data[0] = finfo;
+                            data[1] = termsList;
+                            fields.put(finfo.name, data);
+                        } 
+                        else {
+                            List<Terms> termsList = (List<Terms>) data[1];
+                            termsList.add(t);
+                        }
                     }
                 }
             }
@@ -439,13 +443,18 @@ public final class IRexObjects {
             System.out.println("Field to search: "+searchField);
         }
         else {
-            System.out.println("Warning: field to search set to invalid value.");
-            System.out.println("Field names: " + fields.keySet().toString());
-            System.out.print("Set field to search now: ");
-            Scanner scr = new Scanner(System.in);
-            field = scr.next();
-            setSearchField(field);
-        }
+            System.out.println("Warning: field to search set to an invalid value.");
+            if (fields.size() > 0) {
+                System.out.println("Available field names: " + fields.keySet().toString());
+                System.out.println("Set field to search now: ");
+                Scanner scr = new Scanner(System.in);
+                field = scr.next();
+                setSearchField(field);
+            }
+            else {
+                System.out.println("No available fields with stored term vectors.");
+            }
+}
         //System.out.println("Search field set to: " + searchField);
     }
 
@@ -459,12 +468,17 @@ public final class IRexObjects {
             System.out.println("Docid field: "+idField);
         }
         else {
-            System.out.println("Warning: docid field set to invalid value.");
-            System.out.println("Field names: " + fields.keySet().toString());
-            System.out.print("Set docid field now: ");
-            Scanner scr = new Scanner(System.in);
-            field = scr.next();
-            setDocidField(field);
+			if (fields.size() > 0) {
+				System.out.println("Warning: docid field set to an invalid value.");
+				System.out.println("Field names: " + fields.keySet().toString());
+				System.out.println("Set docid field now: ");
+				Scanner scr = new Scanner(System.in);
+				field = scr.next();
+				setDocidField(field);
+			}
+			else {
+				System.out.println("No available fields with stored term vectors.");
+			}
         }
     }
 

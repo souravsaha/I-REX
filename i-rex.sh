@@ -6,12 +6,12 @@ then
     exit 1;
 fi
 
-irexJarPath=target/i-rex-i-rex.jar
+irexJarPath=target/i-rex-1.1.jar
 if test -f "$irexJarPath";
 then
-    java -cp target/i-rex-i-rex.jar irex.IRex $1
-    mvn exec:java -Dexec.mainClass="com.lucene.lucene8.indexer.NewsDocIndexer" -Dexec.args="$prop_name"
+    mvn exec:java -Dexec.mainClass="irex.IRex" -Dexec.args="$1"
 else
-    java -cp $HOME/bin/dist/i-rex.jar irex.IRex $1
+    echo "Not setup yet."
+#    java -cp $HOME/bin/dist/i-rex.jar irex.IRex $1
 fi
 

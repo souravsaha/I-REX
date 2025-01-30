@@ -111,7 +111,7 @@ public class DocumentVector {
 
     public DocumentVector getDocumentVector(int luceneDocId, IndexReader indexReader) throws IOException {
 
-        DocumentVector dv = new DocumentVector();
+//        DocumentVector dv = new DocumentVector();
         int docSize = 0;
 
         if(indexReader==null) {
@@ -140,12 +140,12 @@ public class DocumentVector {
 
             //* termFreq = cf, in a document; df = 1, in a document
             //dv.docPerTermStat.put(t, new PerTermStat(t, termFreq, 1));
-            dv.docPerTermStat.put(term, new PerTermStat(term, termFreq, 1, getIdf(term, indexReader, fieldName), getCollectionProbability(term, indexReader, fieldName)));
+            this.docPerTermStat.put(term, new PerTermStat(term, termFreq, 1, getIdf(term, indexReader, fieldName), getCollectionProbability(term, indexReader, fieldName)));
         }
-        dv.size = docSize;
+        this.size = docSize;
         //System.out.println("DocSize: "+docSize);
 
-        return dv;
+        return this;
     }
 
     public double getIdf(String term, IndexReader indexReader, String fieldName) throws IOException {

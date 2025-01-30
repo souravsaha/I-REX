@@ -21,7 +21,7 @@ public class QuitIRex extends Commands {
 
     @Override
     public String help() {
-        return "Quit LucIV.";
+        return "Quit i-rex.";
     }
 
     @Override
