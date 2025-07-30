@@ -194,7 +194,7 @@ public class CollectionStatistics {
 
         System.out.println("Collection Size: " + vocSize);
         System.out.println("Number of documents in collection: " + docCount);
-        System.out.println("NUmber of unique terms in collection: " + uniqTermCount);
+        System.out.println("Number of unique terms in collection: " + uniqTermCount);
 
         ///*
         for (Map.Entry<String, PerTermStat> entrySet : perTermStat.entrySet()) {
