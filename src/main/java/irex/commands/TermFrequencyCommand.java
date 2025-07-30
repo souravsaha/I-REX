@@ -31,8 +31,8 @@ public class TermFrequencyCommand extends Commands {
     int luceneDocid;
     String term;
 
-    public TermFrequencyCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "tf");
+    public TermFrequencyCommand(IRexObjects irexObjects) {
+        super(irexObjects, "tf");
     }
 
     @Override

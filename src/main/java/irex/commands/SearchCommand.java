@@ -36,8 +36,8 @@ import org.apache.lucene.util.BytesRef;
  */
 public class SearchCommand extends Commands {
 
-    public SearchCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "search");
+    public SearchCommand(IRexObjects irexObjects) {
+        super(irexObjects, "search");
     }
 
     @Override

@@ -42,8 +42,8 @@ public class DocSimilarCommand extends Commands {
 	int luceneDocid1;
 	int luceneDocid2;
 
-	public DocSimilarCommand(IRexObjects lucivObjects) {
-		super(lucivObjects, "docsimilar");
+	public DocSimilarCommand(IRexObjects irexObjects) {
+		super(irexObjects, "docsimilar");
 	}
 
 	@Override

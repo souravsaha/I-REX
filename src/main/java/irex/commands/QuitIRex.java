@@ -15,8 +15,8 @@ import irex.IRexObjects;
  */
 public class QuitIRex extends Commands {
 
-    public QuitIRex(IRexObjects lucivObjects) {
-        super(lucivObjects, "quit");
+    public QuitIRex(IRexObjects irexObjects) {
+        super(irexObjects, "quit");
     }
 
     @Override

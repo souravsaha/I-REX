@@ -15,8 +15,8 @@ import irex.IRexObjects;
  */
 public class DocidFieldCommand extends Commands {
 
-    public DocidFieldCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "docid");
+    public DocidFieldCommand(IRexObjects irexObjects) {
+        super(irexObjects, "docid");
     }
 
     @Override

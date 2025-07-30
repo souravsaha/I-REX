@@ -21,8 +21,8 @@ import common.treceval.Qrel;
  */
 public class DiffCommand extends Commands{
 
-	public DiffCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "diff");
+	public DiffCommand(IRexObjects irexObjects) {
+        super(irexObjects, "diff");
     }
 	
 	@Override

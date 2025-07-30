@@ -76,25 +76,25 @@ public class RelevanceBasedLanguageModel {
     float           QMIX;
     PrintStream     out;
 
-    public RelevanceBasedLanguageModel(IRexObjects lucivObjects, String queryStr, int numExpTerms, PrintStream out) throws IOException, QueryNodeException { 
+    public RelevanceBasedLanguageModel(IRexObjects irexObjects, String queryStr, int numExpTerms, PrintStream out) throws IOException, QueryNodeException { 
         
         // +++++ setting the analyzer with English Analyzer with Smart stopword list
-//        stopFilePath = lucivObjects.stopwordPath;
+//        stopFilePath = irexObjects.stopwordPath;
 //        EnglishAnalyzerWithSmartStopword engAnalyzer = new EnglishAnalyzerWithSmartStopword(stopFilePath);
 //        analyzer = engAnalyzer.setAndGetEnglishAnalyzerWithSmartStopword();
         // ----- analyzer set: analyzer
 
-        fieldToSearch = lucivObjects.getSearchField();
-        fieldForFeedback = lucivObjects.getSearchField();
+        fieldToSearch = irexObjects.getSearchField();
+        fieldForFeedback = irexObjects.getSearchField();
         /* index path set */
 
         /* setting indexReader and indexSearcher */
-        indexReader = lucivObjects.getIndexReader();
-        indexSearcher = lucivObjects.getIndexSearcher();
+        indexReader = irexObjects.getIndexReader();
+        indexSearcher = irexObjects.getIndexSearcher();
         /* indexReader and searher set */
 
         this.queryStr = queryStr;
-        luceneQuery = lucivObjects.getAnalyzedQuery(queryStr);
+        luceneQuery = irexObjects.getAnalyzedQuery(queryStr);
 
         
         // numFeedbackTerms = number of top terms to select

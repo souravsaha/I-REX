@@ -27,8 +27,8 @@ public class ExpansionCommand extends Commands {
 
     static int M = 20;      // number of pseudo-relevant documents to use for relevance feedback
 
-    public ExpansionCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "expansion");
+    public ExpansionCommand(IRexObjects irexObjects) {
+        super(irexObjects, "expansion");
     }
 
     @Override

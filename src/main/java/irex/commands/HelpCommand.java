@@ -17,8 +17,8 @@ import irex.IRexObjects;
  */
 public class HelpCommand extends Commands{
 
-    public HelpCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "help");
+    public HelpCommand(IRexObjects irexObjects) {
+        super(irexObjects, "help");
     }
     @Override
     public String help() {

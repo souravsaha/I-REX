@@ -23,11 +23,11 @@ public class StatsCommand extends Commands {
 
     /**
      *
-     * @param lucivObjects
+     * @param irexObjects
      */
 
-    public StatsCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "stats");
+    public StatsCommand(IRexObjects irexObjects) {
+        super(irexObjects, "stats");
         isSetStats = new HashMap<>();
     }
 

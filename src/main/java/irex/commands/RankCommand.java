@@ -44,8 +44,8 @@ public class RankCommand extends Commands {
     String docid;
     int luceneDocid;
 
-    public RankCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, cmdName);
+    public RankCommand(IRexObjects irexObjects) {
+        super(irexObjects, cmdName);
     }
 
     @Override

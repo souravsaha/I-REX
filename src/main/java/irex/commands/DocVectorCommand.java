@@ -42,8 +42,8 @@ public class DocVectorCommand extends Commands {
     String fieldName;
     int luceneDocid;
 
-    public DocVectorCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "dv");
+    public DocVectorCommand(IRexObjects irexObjects) {
+        super(irexObjects, "dv");
     }
 
     @Override

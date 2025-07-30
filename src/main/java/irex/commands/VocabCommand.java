@@ -28,8 +28,8 @@ public class VocabCommand extends Commands {
 
     String fieldName;
 
-    public VocabCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, cmdName);
+    public VocabCommand(IRexObjects irexObjects) {
+        super(irexObjects, cmdName);
     }
 
     @Override

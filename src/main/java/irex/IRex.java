@@ -12,6 +12,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 
 /**
  *
@@ -30,7 +31,7 @@ public class IRex {
     }
 
     public static void usage() {
-        String usage = "java IRex <index-path>";
+        String usage = "Usage: i-rex <index-path>";
         System.out.println(usage);
     }
 
@@ -93,13 +94,19 @@ public class IRex {
 
         IRex irex;
 
+        System.out.println(
+                  "+++++++++++++++++++++++++++++++++++++++++++++++++++++\n"
+                + "+++ I-Rex: Index Viewer and Explainer for Lucene. +++\n"
+                + "This version of I-Rex supports Lucene version: " + Version.LATEST + "\n"
+                + "+++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+
         if(args.length != 1) {
             usage();
 
             // for test running
-            args = new String[1];
-            args[0] = "/home/dwaipayan/movie_summaries_index_8.8/";
-            args[0] = "/home/dwaipayan/Downloads/TRECRb_Lucene8.11/trec_robust_lucene8/";
+//            args = new String[1];
+//            args[0] = "/home/dwaipayan/movie_summaries_index_8.8/";
+//            args[0] = "/home/dwaipayan/Downloads/TRECRb_Lucene8.11/trec_robust_lucene8/";
 //            args[0] = "/store/collections/indexed/trec678";
 //            irex = new IRex(args[0]);
             
@@ -115,7 +122,7 @@ public class IRex {
 //            irex.executeCommand("rank", "-i 211077 -q \"  -r lmdir:500".split(" "), System.out);
 //            irex.executeCommand("dv", "-i 1 -d 5 -r \"lmdir 1000\"".split(" "), System.out);
 //            irex.executeCommand("rank", "What is a Bengals cat\tWTX095-B05-124 WTX095-B05-119\tlmjm 0.4\tbm25 0.2 0.75".split("\t"), System.out);
-//            System.exit(0);
+            System.exit(0);
         }
 
         irex = new IRex(args[0]);

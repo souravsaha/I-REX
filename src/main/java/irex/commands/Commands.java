@@ -18,9 +18,9 @@ public abstract class Commands {
     String CMD_NAME;
     protected IRexObjects irexObjects;
 
-    public Commands (IRexObjects lucivObjects, String cmdName) {
+    public Commands (IRexObjects irexObjects, String cmdName) {
         CMD_NAME = cmdName;
-        this.irexObjects = lucivObjects;
+        this.irexObjects = irexObjects;
         this.irexObjects.registerCommand(this);
     }
 

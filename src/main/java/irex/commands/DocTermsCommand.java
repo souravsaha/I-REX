@@ -29,8 +29,8 @@ public class DocTermsCommand extends Commands {
 
     int luceneDocid;
 
-    public DocTermsCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "docterm");
+    public DocTermsCommand(IRexObjects irexObjects) {
+        super(irexObjects, "docterm");
     }
 
     @Override

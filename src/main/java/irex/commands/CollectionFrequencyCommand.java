@@ -29,8 +29,8 @@ public class CollectionFrequencyCommand extends Commands {
     String fieldName;
     String term;
 
-    public CollectionFrequencyCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, cmdName);
+    public CollectionFrequencyCommand(IRexObjects irexObjects) {
+        super(irexObjects, cmdName);
     }
 
     @Override

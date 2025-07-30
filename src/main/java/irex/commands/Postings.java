@@ -38,8 +38,8 @@ public class Postings extends Commands{
     String fieldName;
     String term;
 
-    public Postings(IRexObjects lucivObjects) {
-        super(lucivObjects, cmdName);
+    public Postings(IRexObjects irexObjects) {
+        super(irexObjects, cmdName);
     }
 
     @Override

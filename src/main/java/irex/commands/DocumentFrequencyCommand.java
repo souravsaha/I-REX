@@ -34,8 +34,8 @@ public class DocumentFrequencyCommand extends Commands {
     String fieldName;
     String term;
 
-    public DocumentFrequencyCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, cmdName);
+    public DocumentFrequencyCommand(IRexObjects irexObjects) {
+        super(irexObjects, cmdName);
     }
 
     @Override

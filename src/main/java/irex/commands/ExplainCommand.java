@@ -35,8 +35,8 @@ public class ExplainCommand extends Commands {
     int luceneDocid;
     double totalScore;
 
-    public ExplainCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "explain");
+    public ExplainCommand(IRexObjects irexObjects) {
+        super(irexObjects, "explain");
     }
 
     @Override

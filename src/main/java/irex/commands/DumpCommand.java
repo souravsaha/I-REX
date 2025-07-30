@@ -32,8 +32,8 @@ public class DumpCommand extends Commands {
     String fieldName;
     int luceneDocid;
 
-    public DumpCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "dump");
+    public DumpCommand(IRexObjects irexObjects) {
+        super(irexObjects, "dump");
     }
 
     @Override

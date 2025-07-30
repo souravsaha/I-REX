@@ -13,8 +13,8 @@ import irex.IRexObjects;
  */
 public class SetSearchFieldCommand extends Commands {
 
-    public SetSearchFieldCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "searchfield");
+    public SetSearchFieldCommand(IRexObjects irexObjects) {
+        super(irexObjects, "searchfield");
     }
 
     @Override

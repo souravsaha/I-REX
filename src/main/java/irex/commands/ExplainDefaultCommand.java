@@ -23,8 +23,8 @@ public class ExplainDefaultCommand extends Commands {
     String query;
     int luceneDocid;
 
-    public ExplainDefaultCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "explain2");
+    public ExplainDefaultCommand(IRexObjects irexObjects) {
+        super(irexObjects, "explain2");
     }
 
     @Override

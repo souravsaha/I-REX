@@ -15,8 +15,8 @@ import irex.IRexObjects;
  */
 public class Man extends Commands {
 
-    public Man(IRexObjects lucivObjects) {
-        super(lucivObjects, "man");
+    public Man(IRexObjects irexObjects) {
+        super(irexObjects, "man");
     }
 
     @Override

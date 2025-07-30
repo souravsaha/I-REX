@@ -46,8 +46,8 @@ public class CompareCommand extends Commands{
 	int luceneDocid1;
 	int luceneDocid2;
 
-	public CompareCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "compare");
+	public CompareCommand(IRexObjects irexObjects) {
+        super(irexObjects, "compare");
     }
 	
 	@Override

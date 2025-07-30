@@ -29,8 +29,8 @@ public class DocLengthCommand extends Commands {
     String docid;
     int luceneDocid;
 
-    public DocLengthCommand(IRexObjects lucivObjects) {
-        super(lucivObjects, "dl");
+    public DocLengthCommand(IRexObjects irexObjects) {
+        super(irexObjects, "dl");
     }
 
     @Override
